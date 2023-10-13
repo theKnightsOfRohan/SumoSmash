@@ -7,8 +7,8 @@ public class Player extends Image implements Moveable, Collidable {
         super(x, y, width, height, sprite, app);
     }
 
-    public void draw(PApplet app) {
-        super.draw(app);
+    public void act(PApplet app) {
+        super.act(app);
     }
 
     public void move() {

@@ -8,7 +8,7 @@ public class Settings {
 }
 
 interface Drawable {
-    public void draw(PApplet app);
+    public void act(PApplet app);
 
     public int getX();
 

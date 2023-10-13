@@ -14,7 +14,7 @@ public class Image implements Drawable {
         sprite.resize(width, height);
     }
 
-    public void draw(PApplet app) {
+    public void act(PApplet app) {
         app.image(sprite, x, y);
     }
 

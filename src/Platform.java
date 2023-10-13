@@ -7,8 +7,8 @@ public class Platform extends Image implements Collidable {
         super(x, y, width, height, sprite, app);
     }
 
-    public void draw(PApplet app) {
-        super.draw(app);
+    public void act(PApplet app) {
+        super.act(app);
     }
 
     public boolean collidesWith(List<Collidable> other) {
