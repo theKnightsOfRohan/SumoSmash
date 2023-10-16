@@ -21,7 +21,7 @@ public class Main extends PApplet {
         background(200);
         player.act(this);
         for (Collidable block : immovables) {
-            ((Drawable) block).act(this);
+            block.act(this);
         }
     }
 

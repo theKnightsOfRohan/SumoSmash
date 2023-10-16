@@ -29,6 +29,6 @@ interface Shovable {
     public void onCollision(Collidable other);
 }
 
-interface Collidable {
+interface Collidable extends Drawable {
 
 }

@@ -26,8 +26,8 @@ public class Player extends Image implements Moveable, Shovable {
 
     public Collidable collidesWith(List<Collidable> others) {
         for (Collidable block : others) {
-            if (this.x + this.width > ((Drawable) block).getX() && this.x < ((Drawable) block).getX() + ((Drawable) block).getWidth()
-                    && this.y + this.height > ((Drawable) block).getY() && this.y < ((Drawable) block).getY() + ((Drawable) block).getHeight()) {
+            if (this.x + this.width > block.getX() && this.x < block.getX() + block.getWidth() && this.y + this.height > block.getY()
+                    && this.y < block.getY() + block.getHeight()) {
                 return block;
             }
         }
@@ -40,6 +40,6 @@ public class Player extends Image implements Moveable, Shovable {
             return;
 
         this.ySpeed = 0;
-        this.y = ((Drawable) other).getY() - this.height;
+        this.y = (other).getY() - this.height;
     }
 }

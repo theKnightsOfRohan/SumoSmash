@@ -11,12 +11,4 @@ public class Platform extends Image implements Collidable {
         super.act(app);
         app.rect(x, y, width, height);
     }
-
-    public boolean collidesWith(List<Collidable> others) {
-        return false;
-    }
-
-    public void onCollision() {
-        return;
-    }
 }
