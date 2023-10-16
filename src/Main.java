@@ -10,7 +10,7 @@ public class Main extends PApplet {
 
     public void setup() {
         player = new Player(0, 0, 50, 50 /* , loadImage("player.png"), this */);
-        mainPlatform = new Platform(250, 250, 100, 100/* , loadImage("platform.png"), this */);
+        mainPlatform = new Platform(0, 200, 500, 25/*, loadImage("platform.png"), this*/);
     }
 
     public void draw() {
