@@ -19,6 +19,7 @@ public class Player extends Image implements Moveable, Collidable {
     public void move() {
         this.x += this.xSpeed;
         this.y += this.ySpeed;
+        this.ySpeed += Settings.GRAVITY;
     }
 
     public boolean collidesWith(List<Collidable> other) {
