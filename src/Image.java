@@ -5,17 +5,19 @@ public class Image implements Drawable {
     protected int x, y, width, height;
     protected PImage sprite;
 
-    public Image(int x, int y, int width, int height, PImage sprite, PApplet app) {
+    public Image(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.sprite = sprite;
-        sprite.resize(width, height);
+        /*
+         * this.sprite = sprite; sprite.resize(width, height);
+         */
     }
 
     public void act(PApplet app) {
-        app.image(sprite, x, y);
+        /* app.image(sprite, x, y); */
+        app.rect(x, y, width, height);
     }
 
     public int getX() {

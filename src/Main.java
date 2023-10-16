@@ -7,6 +7,7 @@ public class Main extends PApplet {
 
     public void setup() {
         background(0);
+        Player player = new Player(0, 0, 50, 50 /* , loadImage("player.png"), this */);
     }
 
     public void draw() {
