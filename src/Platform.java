@@ -9,6 +9,7 @@ public class Platform extends Image implements Collidable {
 
     public void act(PApplet app) {
         super.act(app);
+        app.rect(x, y, width, height);
     }
 
     public boolean collidesWith(List<Collidable> other) {
