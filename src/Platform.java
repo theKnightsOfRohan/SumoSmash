@@ -12,7 +12,7 @@ public class Platform extends Image implements Collidable {
         app.rect(x, y, width, height);
     }
 
-    public boolean collidesWith(List<Collidable> other) {
+    public boolean collidesWith(List<Collidable> others) {
         return false;
     }
 

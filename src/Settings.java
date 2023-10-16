@@ -20,11 +20,15 @@ interface Drawable {
 }
 
 interface Moveable {
-    public void move();
+    public void move(Main app);
+}
+
+interface Shovable {
+    public Collidable collidesWith(List<Collidable> others);
+
+    public void onCollision(Collidable other);
 }
 
 interface Collidable {
-    public boolean collidesWith(List<Collidable> others);
 
-    public void onCollision();
 }
