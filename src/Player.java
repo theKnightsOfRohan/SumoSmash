@@ -3,12 +3,16 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Player extends Image implements Moveable, Shovable {
-    private int xSpeed, ySpeed;
+    private float xSpeed, ySpeed;
+    private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
 
     public Player(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
         super(x, y, width, height/* , sprite, app */);
         this.xSpeed = 0;
         this.ySpeed = 0;
+        this.chargeYSpeed = 0;
+        this.chargeYAcceleration = -5;
+        this.maxChargeYSpeed = -25;
     }
 
     public void act(Main app) {
@@ -41,5 +45,19 @@ public class Player extends Image implements Moveable, Shovable {
 
         this.ySpeed = 0;
         this.y = (other).getY() - this.height;
+    }
+
+    public void chargeJump() {
+        if (this.chargeYSpeed > this.maxChargeYSpeed && this.ySpeed == 0)
+            this.chargeYSpeed += this.chargeYAcceleration;
+    }
+
+    public void releaseJump() {
+        this.ySpeed = this.chargeYSpeed;
+        this.chargeYSpeed = 0;
+    }
+
+    public String toString() {
+        return "x: " + this.x + ", y: " + this.y + ", xSpeed: " + this.xSpeed + ", ySpeed: " + this.ySpeed + ", chargeYSpeed: " + this.chargeYSpeed;
     }
 }
