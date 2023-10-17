@@ -1,4 +1,5 @@
 import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -55,6 +56,20 @@ public class Player extends Image implements Moveable, Shovable {
     public void releaseJump() {
         this.ySpeed = this.chargeYSpeed;
         this.chargeYSpeed = 0;
+    }
+
+    public void moveSideways(String dir) {
+        switch (dir) {
+            case "left":
+                this.xSpeed = -5;
+                break;
+            case "right":
+                this.xSpeed = 5;
+                break;
+            default:
+                this.xSpeed = 0;
+                break;
+        }
     }
 
     public String toString() {

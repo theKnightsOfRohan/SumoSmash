@@ -31,12 +31,20 @@ public class Main extends PApplet {
     public void keyPressed() {
         if (key == ' ' || key == 'w' || keyCode == UP) {
             player.chargeJump();
+        } else if (key == 'a' || keyCode == LEFT) {
+            player.moveSideways("left");
+        } else if (key == 'd' || keyCode == RIGHT) {
+            player.moveSideways("right");
         }
     }
 
     public void keyReleased() {
         if (key == ' ' || key == 'w' || keyCode == UP) {
             player.releaseJump();
+        } else if (key == 'a' || keyCode == LEFT) {
+            player.moveSideways("");
+        } else if (key == 'd' || keyCode == RIGHT) {
+            player.moveSideways("");
         }
     }
 
