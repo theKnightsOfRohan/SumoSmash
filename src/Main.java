@@ -14,7 +14,7 @@ public class Main extends PApplet {
     public void setup() {
         immovables = new ArrayList<Collidable>();
         player = new Player(0, 0, 50, 50 /* , loadImage("player.png"), this */);
-        immovables.add(new Platform(0, 500, 500, 25/* , loadImage("platform.png"), this */));
+        immovables.add(new Platform(0, 400, 500, 25/* , loadImage("platform.png"), this */));
     }
 
     public void draw() {
@@ -30,21 +30,23 @@ public class Main extends PApplet {
 
     public void keyPressed() {
         if (key == ' ' || key == 'w' || keyCode == UP) {
-            player.chargeJump();
+            player.setKeys("jump", true);
         } else if (key == 'a' || keyCode == LEFT) {
-            player.moveSideways("left");
+            player.setKeys("left", true);
+            player.setKeys("right", false);
         } else if (key == 'd' || keyCode == RIGHT) {
-            player.moveSideways("right");
+            player.setKeys("right", true);
+            player.setKeys("left", false);
         }
     }
 
     public void keyReleased() {
         if (key == ' ' || key == 'w' || keyCode == UP) {
-            player.releaseJump();
+            player.setKeys("jump", false);
         } else if (key == 'a' || keyCode == LEFT) {
-            player.moveSideways("");
+            player.setKeys("left", false);
         } else if (key == 'd' || keyCode == RIGHT) {
-            player.moveSideways("");
+            player.setKeys("right", false);
         }
     }
 
