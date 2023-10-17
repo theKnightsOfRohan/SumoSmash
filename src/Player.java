@@ -33,6 +33,10 @@ public class Player extends Image implements Moveable, Shovable {
 
         doActions(currentActions);
 
+        if (this.isOffScreen()) {
+            this.respawn();
+        }
+
         this.onCollision(this.collidesWith(app.immovables));
     }
 
@@ -85,7 +89,7 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     public void setKeys(String key, boolean pressed) {
-        System.out.println("Initial: " + currentActions.toString());
+        // System.out.println("Initial: " + currentActions.toString());
         if (pressed) {
             if (!currentActions.contains(key))
                 this.currentActions.add(key);
@@ -96,7 +100,23 @@ public class Player extends Image implements Moveable, Shovable {
             this.releaseJump();
         }
 
-        System.out.println("Final: " + currentActions.toString());
+        //System.out.println("Final: " + currentActions.toString());
+    }
+
+    public boolean isOffScreen() {
+        if (this.y > Settings.SCREEN_HEIGHT || this.x + this.width < 0 || this.x > Settings.SCREEN_WIDTH) {
+            return true;
+        }
+        return false;
+    }
+
+    public void respawn() {
+        this.x = 250;
+        this.y = 250;
+        this.ySpeed = 0;
+        this.xSpeed = 0;
+        this.canJump = false;
+        this.chargeYSpeed = 0;
     }
 
     public String toString() {
