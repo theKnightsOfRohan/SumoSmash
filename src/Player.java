@@ -9,6 +9,7 @@ public class Player extends Image implements Moveable, Shovable {
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     private boolean canJump;
     private HashSet<String> currentActions;
+    private float bounceFactor;
 
     public Player(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
         super(x, y, width, height/* , sprite, app */);
@@ -19,6 +20,7 @@ public class Player extends Image implements Moveable, Shovable {
         this.maxChargeYSpeed = -25;
         this.canJump = true;
         currentActions = new HashSet<String>();
+        bounceFactor = 0.2f;
     }
 
     public void act(Main app) {
@@ -66,11 +68,13 @@ public class Player extends Image implements Moveable, Shovable {
     public void onCollision(Collidable other) {
         if (other == null)
             return;
-
-        this.ySpeed = 0;
-        this.y = (other).getY() - this.height;
-
-        this.canJump = true;
+        if (this.ySpeed > 10 && !this.canJump) {
+            this.ySpeed = -this.ySpeed * bounceFactor;
+        } else {
+            this.ySpeed = 0;
+            this.canJump = true;
+        }
+        this.y = other.getY() - this.height;
     }
 
     public void chargeJump() {
@@ -81,9 +85,7 @@ public class Player extends Image implements Moveable, Shovable {
     public void releaseJump() {
         if (this.chargeYSpeed != 0 && this.canJump) {
             this.ySpeed = this.chargeYSpeed;
-
         }
-
         this.canJump = false;
         this.chargeYSpeed = 0;
     }
