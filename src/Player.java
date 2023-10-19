@@ -4,6 +4,13 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * This class represents a player in the SumoSmash game. It extends the Image
+ * class and implements the Moveable and Shovable interfaces. It contains fields
+ * for the player's speed, acceleration, jump charge, actions, and collision
+ * properties. It also contains methods for moving the player, handling
+ * collisions, and updating the player's state based on user input.
+ */
 public class Player extends Image implements Moveable, Shovable {
     private float xSpeed, ySpeed;
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
@@ -14,6 +21,14 @@ public class Player extends Image implements Moveable, Shovable {
     private float bounceFactor;
     private float friction;
 
+    /**
+     * Constructor for the Player class.
+     * 
+     * @param x      The x-coordinate of the player.
+     * @param y      The y-coordinate of the player.
+     * @param width  The width of the player.
+     * @param height The height of the player.
+     */
     public Player(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
         super(x, y, width, height/* , sprite, app */);
         this.xSpeed = 0;
@@ -37,6 +52,14 @@ public class Player extends Image implements Moveable, Shovable {
         super.act(app);
     }
 
+    /**
+     * Moves the player by updating its position based on its current speed and
+     * acceleration. Also performs any actions currently assigned to the player and
+     * checks for collisions with immovable objects. If the player goes off-screen,
+     * it is respawned.
+     * 
+     * @param app the Main object representing the game
+     */
     public void move(Main app) {
         this.x += this.xSpeed;
         this.y += this.ySpeed;
@@ -51,6 +74,12 @@ public class Player extends Image implements Moveable, Shovable {
         this.onCollision(this.collidesWith(app.immovables));
     }
 
+    /**
+     * Performs actions based on the current set of actions.
+     * 
+     * @param currentActions a HashSet of Strings representing the current set of
+     *                       actions
+     */
     private void doActions(HashSet<String> currentActions) {
         if (currentActions.contains("jump"))
             this.chargeJump();
@@ -74,6 +103,13 @@ public class Player extends Image implements Moveable, Shovable {
             this.xSpeed = 0;
     }
 
+    /**
+     * Checks if the player collides with any of the given collidables.
+     * 
+     * @param others a list of collidables to check against
+     * @return the collidable that the player collides with, or null if there is no
+     *         collision
+     */
     public Collidable collidesWith(List<Collidable> others) {
         for (Collidable block : others) {
             if (this.x + this.width > block.getX() && this.x < block.getX() + block.getWidth() && this.y + this.height > block.getY()
@@ -85,6 +121,16 @@ public class Player extends Image implements Moveable, Shovable {
         return null;
     }
 
+    /**
+     * This method is called when the player collides with another Collidable
+     * object. If the player is moving downwards with a speed greater than 10 and
+     * cannot jump, the player's ySpeed is reversed and multiplied by the
+     * bounceFactor. Otherwise, the player's ySpeed is set to 0 and canJump is set
+     * to true. The player's y position is set to the top of the other Collidable
+     * object.
+     * 
+     * @param other the Collidable object that the player collided with
+     */
     public void onCollision(Collidable other) {
         if (other == null)
             return;
@@ -97,11 +143,20 @@ public class Player extends Image implements Moveable, Shovable {
         this.y = other.getY() - this.height;
     }
 
+    /**
+     * Increases the player's charge jump speed if the maximum charge jump speed has
+     * not been reached and the player can jump.
+     */
     public void chargeJump() {
         if (this.chargeYSpeed > this.maxChargeYSpeed && this.canJump)
             this.chargeYSpeed += this.chargeYAcceleration;
     }
 
+    /**
+     * Release the jump of the player if they have charged their jump and can jump.
+     * Sets the player's ySpeed to the charged ySpeed if they can jump. Sets canJump
+     * to false and chargeYSpeed to 0.
+     */
     public void releaseJump() {
         if (this.chargeYSpeed != 0 && this.canJump) {
             this.ySpeed = this.chargeYSpeed;
@@ -110,6 +165,15 @@ public class Player extends Image implements Moveable, Shovable {
         this.chargeYSpeed = 0;
     }
 
+    /**
+     * Sets the state of a key to pressed or released and updates the current
+     * actions accordingly. If the key is pressed and not already in the current
+     * actions, it is added. If the key is released, it is removed from the current
+     * actions and if it is the jump key, the jump is released.
+     * 
+     * @param key     the key being pressed or released
+     * @param pressed true if the key is pressed, false if it is released
+     */
     public void setKeys(String key, boolean pressed) {
         if (pressed) {
             if (!currentActions.contains(key))
@@ -122,6 +186,11 @@ public class Player extends Image implements Moveable, Shovable {
         }
     }
 
+    /**
+     * Checks if the player is off the screen.
+     * 
+     * @return true if the player is off the screen, false otherwise.
+     */
     public boolean isOffScreen() {
         if (this.y > Settings.SCREEN_HEIGHT || this.x + this.width < 0 || this.x > Settings.SCREEN_WIDTH) {
             return true;
@@ -129,6 +198,9 @@ public class Player extends Image implements Moveable, Shovable {
         return false;
     }
 
+    /**
+     * Resets the player's position and speed to default values.
+     */
     public void respawn() {
         this.x = 250;
         this.y = 250;
@@ -138,6 +210,13 @@ public class Player extends Image implements Moveable, Shovable {
         this.chargeYSpeed = 0;
     }
 
+    /**
+     * Returns a string representation of the Player object. The string contains the
+     * player's x and y coordinates, x and y speeds, charge y speed, and current
+     * actions. The x speed is truncated to 4 decimal places.
+     *
+     * @return a string representation of the Player object
+     */
     public String toString() {
         return "x: " + this.x + ", y: " + this.y + ", xSpeed: "
                 + Float.toString(this.xSpeed).substring(0, (int) (Math.min(Float.toString(this.xSpeed).length(), 4))) + ", ySpeed: " + this.ySpeed
