@@ -32,6 +32,8 @@ public class Player extends Image implements Moveable, Shovable {
 
     public void act(Main app) {
         this.move(app);
+        app.fill(0);
+        app.stroke(255);
         super.act(app);
     }
 
@@ -96,7 +98,7 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     public void chargeJump() {
-        if (this.chargeYSpeed > this.maxChargeYSpeed)
+        if (this.chargeYSpeed > this.maxChargeYSpeed && this.canJump)
             this.chargeYSpeed += this.chargeYAcceleration;
     }
 
@@ -109,7 +111,6 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     public void setKeys(String key, boolean pressed) {
-        // System.out.println("Initial: " + currentActions.toString());
         if (pressed) {
             if (!currentActions.contains(key))
                 this.currentActions.add(key);
@@ -119,8 +120,6 @@ public class Player extends Image implements Moveable, Shovable {
             }
             this.releaseJump();
         }
-
-        // System.out.println("Final: " + currentActions.toString());
     }
 
     public boolean isOffScreen() {

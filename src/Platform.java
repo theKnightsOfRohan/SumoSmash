@@ -9,6 +9,8 @@ public class Platform extends Image implements Collidable {
 
     public void act(PApplet app) {
         super.act(app);
+        app.fill(100);
+        app.stroke(0);
         app.rect(x, y, width, height);
     }
 }
