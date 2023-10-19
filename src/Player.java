@@ -7,9 +7,11 @@ import processing.core.PImage;
 public class Player extends Image implements Moveable, Shovable {
     private float xSpeed, ySpeed;
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
+    private float xAcceleration, maxXSpeed;
     private boolean canJump;
     private HashSet<String> currentActions;
     private float bounceFactor;
+    private float friction;
 
     public Player(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
         super(x, y, width, height/* , sprite, app */);
@@ -18,9 +20,12 @@ public class Player extends Image implements Moveable, Shovable {
         this.chargeYSpeed = 0;
         this.chargeYAcceleration = -1;
         this.maxChargeYSpeed = -25;
+        this.xAcceleration = 1;
+        this.maxXSpeed = 5;
         this.canJump = true;
-        currentActions = new HashSet<String>();
-        bounceFactor = 0.2f;
+        this.currentActions = new HashSet<String>();
+        this.bounceFactor = 0.2f;
+        this.friction = 0.8f;
     }
 
     public void act(Main app) {
@@ -43,12 +48,20 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     private void doActions(HashSet<String> currentActions) {
-        this.xSpeed = 0;
-        if (currentActions.contains("left"))
-            this.xSpeed -= 5;
+        if (currentActions.contains("left")) {
+            if (Math.abs(this.xSpeed) < this.maxXSpeed) {
+                this.xSpeed -= 2 * this.xAcceleration;
+            }
+        } else if (currentActions.contains("right")) {
+            if (this.xSpeed < this.maxXSpeed) {
+                this.xSpeed += 2 * this.xAcceleration;
+            }
+        }
 
-        if (currentActions.contains("right"))
-            this.xSpeed += 5;
+        if (Math.abs(this.xSpeed) < 1)
+            this.xSpeed = 0;
+        else
+            this.xSpeed *= this.friction;
 
         if (currentActions.contains("jump"))
             this.chargeJump();
@@ -102,7 +115,7 @@ public class Player extends Image implements Moveable, Shovable {
             this.releaseJump();
         }
 
-        //System.out.println("Final: " + currentActions.toString());
+        // System.out.println("Final: " + currentActions.toString());
     }
 
     public boolean isOffScreen() {

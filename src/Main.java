@@ -13,8 +13,8 @@ public class Main extends PApplet {
 
     public void setup() {
         immovables = new ArrayList<Collidable>();
-        player = new Player(0, 0, 50, 50 /* , loadImage("player.png"), this */);
-        immovables.add(new Platform(0, 400, 500, 25/* , loadImage("platform.png"), this */));
+        player = new Player(Settings.PLAYER_1_START_X, Settings.PLAYER_1_START_Y, 50, 50 /* , loadImage("player.png"), this */);
+        immovables.add(new Platform(200, 700, 600, 300/* , loadImage("platform.png"), this */));
     }
 
     public void draw() {
