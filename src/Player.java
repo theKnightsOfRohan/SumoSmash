@@ -8,6 +8,7 @@ public class Player extends Image implements Moveable, Shovable {
     private float xSpeed, ySpeed;
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     private float xAcceleration, maxXSpeed;
+    private float airAccScaleFactor;
     private boolean canJump;
     private HashSet<String> currentActions;
     private float bounceFactor;
@@ -22,6 +23,7 @@ public class Player extends Image implements Moveable, Shovable {
         this.maxChargeYSpeed = -25;
         this.xAcceleration = 1;
         this.maxXSpeed = 5;
+        this.airAccScaleFactor = 0.9f;
         this.canJump = true;
         this.currentActions = new HashSet<String>();
         this.bounceFactor = 0.2f;
@@ -48,7 +50,9 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     private void doActions(HashSet<String> currentActions) {
-        if (currentActions.contains("left")) {
+        if (currentActions.contains("jump"))
+            this.chargeJump();
+        else if (currentActions.contains("left")) {
             if (Math.abs(this.xSpeed) < this.maxXSpeed) {
                 this.xSpeed -= 2 * this.xAcceleration;
             }
@@ -58,13 +62,14 @@ public class Player extends Image implements Moveable, Shovable {
             }
         }
 
+        if (this.canJump) {
+            this.xSpeed *= this.friction;
+        } else {
+            this.xSpeed *= this.airAccScaleFactor;
+        }
+
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
-        else
-            this.xSpeed *= this.friction;
-
-        if (currentActions.contains("jump"))
-            this.chargeJump();
     }
 
     public Collidable collidesWith(List<Collidable> others) {
@@ -135,7 +140,8 @@ public class Player extends Image implements Moveable, Shovable {
     }
 
     public String toString() {
-        return "x: " + this.x + ", y: " + this.y + ", xSpeed: " + this.xSpeed + ", ySpeed: " + this.ySpeed + ", chargeYSpeed: " + this.chargeYSpeed
-                + ", keys: " + this.currentActions.toString();
+        return "x: " + this.x + ", y: " + this.y + ", xSpeed: "
+                + Float.toString(this.xSpeed).substring(0, (int) (Math.min(Float.toString(this.xSpeed).length(), 4))) + ", ySpeed: " + this.ySpeed
+                + ", chargeYSpeed: " + this.chargeYSpeed + ", keys: " + this.currentActions.toString();
     }
 }
