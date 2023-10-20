@@ -218,8 +218,7 @@ public class Player extends Image implements Moveable, Shovable {
      * @return a string representation of the Player object
      */
     public String toString() {
-        return "x: " + this.x + ", y: " + this.y + ", xSpeed: "
-                + Float.toString(this.xSpeed).substring(0, (int) (Math.min(Float.toString(this.xSpeed).length(), 4))) + ", ySpeed: " + this.ySpeed
-                + ", chargeYSpeed: " + this.chargeYSpeed + ", keys: " + this.currentActions.toString();
+        return String.format("Player at (%d, %d) with xSpeed %.4f, ySpeed %f, chargeYSpeed %f, and actions %s", this.x, this.y, this.xSpeed,
+                this.ySpeed, this.chargeYSpeed, this.currentActions);
     }
 }
