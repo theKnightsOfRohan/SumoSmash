@@ -19,8 +19,6 @@ import processing.core.PApplet;
 public class Main extends PApplet {
     Player player;
     List<Drawable> drawables;
-    List<Collidable> collidables;
-    List<Moveable> movables;
     CollisionHandler collisionHandler;
 
     public void settings() {
@@ -35,17 +33,15 @@ public class Main extends PApplet {
         collisionHandler = new CollisionHandler();
 
         drawables = new ArrayList<Drawable>();
-        collidables = new ArrayList<Collidable>();
-        movables = new ArrayList<Moveable>();
 
         player = new Player(Settings.PLAYER_1_START_X, Settings.PLAYER_1_START_Y, 50, 50);
         drawables.add(player);
-        collidables.add(player);
-        movables.add(player);
+        collisionHandler.addMoveable(player);
+        collisionHandler.addCollidable(player);
 
         Platform platform = new Platform(Settings.PLATFORM_START_X, Settings.PLATFORM_START_Y, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HEIGHT);
         drawables.add(platform);
-        collidables.add(platform);
+        collisionHandler.addCollidable(platform);
     }
 
     public void draw() {

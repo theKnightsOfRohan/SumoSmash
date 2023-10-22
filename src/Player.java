@@ -72,8 +72,6 @@ public class Player extends Image implements Moveable {
         if (this.isOffScreen()) {
             this.respawn();
         }
-
-        // this.onCollision(this.collidesWith(app.immovables));
     }
 
     /**
@@ -103,46 +101,6 @@ public class Player extends Image implements Moveable {
 
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
-    }
-
-    /**
-     * Checks if the player collides with any of the given collidables.
-     * 
-     * @param others a list of collidables to check against
-     * @return the collidable that the player collides with, or null if there is no
-     *         collision
-     */
-    public Collidable collidesWith(List<Collidable> others) {
-        for (Collidable block : others) {
-            if (this.x + this.width > block.getX() && this.x < block.getX() + block.getWidth() && this.y + this.height > block.getY()
-                    && this.y < block.getY() + block.getHeight()) {
-                return block;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * This method is called when the player collides with another Collidable
-     * object. If the player is moving downwards with a speed greater than 10 and
-     * cannot jump, the player's ySpeed is reversed and multiplied by the
-     * bounceFactor. Otherwise, the player's ySpeed is set to 0 and canJump is set
-     * to true. The player's y position is set to the top of the other Collidable
-     * object.
-     * 
-     * @param other the Collidable object that the player collided with
-     */
-    public void onCollision(Collidable other) {
-        if (other == null)
-            return;
-        if (this.ySpeed > 10 && !this.canJump) {
-            this.ySpeed = -this.ySpeed * bounceFactor;
-        } else {
-            this.ySpeed = 0;
-            this.canJump = true;
-        }
-        this.y = other.getY() - this.height;
     }
 
     public void onCollision(CollisionInfo info) {
@@ -225,8 +183,8 @@ public class Player extends Image implements Moveable {
      * Resets the player's position and speed to default values.
      */
     public void respawn() {
-        this.x = 250;
-        this.y = 250;
+        this.x = Settings.PLAYER_1_START_X;
+        this.y = Settings.PLAYER_1_START_Y;
         this.ySpeed = 0;
         this.xSpeed = 0;
         this.canJump = false;
