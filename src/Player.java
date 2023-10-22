@@ -11,7 +11,7 @@ import processing.core.PImage;
  * properties. It also contains methods for moving the player, handling
  * collisions, and updating the player's state based on user input.
  */
-public class Player extends Image implements Moveable, Shovable {
+public class Player extends Image implements Moveable {
     private float xSpeed, ySpeed;
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     private float xAcceleration, maxXSpeed;
@@ -45,11 +45,13 @@ public class Player extends Image implements Moveable, Shovable {
         this.friction = 0.8f;
     }
 
-    public void act(Main app) {
+    public void act(PApplet app) {
         this.move(app);
         app.fill(0);
         app.stroke(255);
         super.act(app);
+
+        app.text("DEBUG: " + this.toString(), 10, 10);
     }
 
     /**
@@ -60,7 +62,7 @@ public class Player extends Image implements Moveable, Shovable {
      * 
      * @param app the Main object representing the game
      */
-    public void move(Main app) {
+    public void move(PApplet app) {
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         this.ySpeed += Settings.GRAVITY;
@@ -71,7 +73,7 @@ public class Player extends Image implements Moveable, Shovable {
             this.respawn();
         }
 
-        this.onCollision(this.collidesWith(app.immovables));
+        // this.onCollision(this.collidesWith(app.immovables));
     }
 
     /**
@@ -141,6 +143,27 @@ public class Player extends Image implements Moveable, Shovable {
             this.canJump = true;
         }
         this.y = other.getY() - this.height;
+    }
+
+    public void onCollision(CollisionInfo info) {
+        if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
+            if (info.getA() == this) {
+                this.y = info.getB().getY() - this.height;
+                this.ySpeed = 0;
+                this.canJump = true;
+            } else {
+                this.y = info.getA().getY() + info.getA().getHeight();
+                this.ySpeed = 0;
+            }
+        } else {
+            if (info.getA() == this) {
+                this.x = info.getB().getX() - this.width;
+                this.xSpeed = 0;
+            } else {
+                this.x = info.getA().getX() + info.getA().getWidth();
+                this.xSpeed = 0;
+            }
+        }
     }
 
     /**

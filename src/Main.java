@@ -18,7 +18,10 @@ import processing.core.PApplet;
  */
 public class Main extends PApplet {
     Player player;
-    List<Collidable> immovables;
+    List<Drawable> drawables;
+    List<Collidable> collidables;
+    List<Moveable> movables;
+    CollisionHandler collisionHandler;
 
     public void settings() {
         size(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
@@ -29,21 +32,30 @@ public class Main extends PApplet {
      * object, and adding a platform to the immovables list.
      */
     public void setup() {
-        immovables = new ArrayList<Collidable>();
-        player = new Player(Settings.PLAYER_1_START_X, Settings.PLAYER_1_START_Y, 50, 50 /* , loadImage("player.png"), this */);
-        immovables.add(new Platform(Settings.PLATFORM_START_X, Settings.PLATFORM_START_Y, Settings.PLATFORM_WIDTH,
-                Settings.PLATFORM_HEIGHT/* , loadImage("platform.png"), this */));
+        collisionHandler = new CollisionHandler();
+
+        drawables = new ArrayList<Drawable>();
+        collidables = new ArrayList<Collidable>();
+        movables = new ArrayList<Moveable>();
+
+        player = new Player(Settings.PLAYER_1_START_X, Settings.PLAYER_1_START_Y, 50, 50);
+        drawables.add(player);
+        collidables.add(player);
+        movables.add(player);
+
+        Platform platform = new Platform(Settings.PLATFORM_START_X, Settings.PLATFORM_START_Y, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HEIGHT);
+        drawables.add(platform);
+        collidables.add(platform);
     }
 
     public void draw() {
         background(200);
-        player.act(this);
-        for (Collidable block : immovables) {
-            block.act(this);
+        for (Drawable drawable : drawables) {
+            drawable.act(this);
         }
 
+        collisionHandler.handleCollisions();
         fill(0);
-        text("DEBUG: " + player.toString(), 10, 10);
     }
 
     /**

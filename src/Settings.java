@@ -59,36 +59,13 @@ interface Drawable {
 /**
  * This interface represents a Moveable object that can move within the game.
  */
-interface Moveable {
+interface Moveable extends Collidable {
     /**
      * Moves the Moveable object within the game.
      * 
      * @param app the Main object representing the game
      */
-    public void move(Main app);
-}
-
-/**
- * This interface represents an object that can be moved and can collide with
- * other objects. It defines two methods: collidesWith and onCollision.
- */
-interface Shovable {
-    /**
-     * Checks if this object collides with any of the other objects in the given
-     * list.
-     * 
-     * @param others a list of other collidable objects
-     * @return the first collidable object that this object collides with, or null
-     *         if there is no collision
-     */
-    public Collidable collidesWith(List<Collidable> others);
-
-    /**
-     * Called when this object collides with another collidable object.
-     * 
-     * @param other the collidable object that this object collided with
-     */
-    public void onCollision(Collidable other);
+    public void move(PApplet app);
 }
 
 /**
@@ -96,5 +73,5 @@ interface Shovable {
  * Drawable interface.
  */
 interface Collidable extends Drawable {
-
+    public void onCollision(CollisionInfo info);
 }

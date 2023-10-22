@@ -25,4 +25,8 @@ public class Platform extends Image implements Collidable {
         app.stroke(0);
         app.rect(x, y, width, height);
     }
+
+    public void onCollision(CollisionInfo info) {
+        return;
+    }
 }
