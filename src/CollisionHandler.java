@@ -33,31 +33,31 @@ public class CollisionHandler {
         }
     }
 
-    private boolean isCollision(Moveable moveable, Collidable collidable) {
-        return moveable.getX() + moveable.getWidth() > collidable.getX() && moveable.getX() < collidable.getX() + collidable.getWidth()
-                && moveable.getY() + moveable.getHeight() > collidable.getY() && moveable.getY() < collidable.getY() + collidable.getHeight();
+    private boolean isCollision(Collidable a, Collidable b) {
+        return a.getX() + a.getWidth() > b.getX() && a.getX() < b.getX() + b.getWidth() && a.getY() + a.getHeight() > b.getY()
+                && a.getY() < b.getY() + b.getHeight();
     }
 
-    private CollisionInfo getCollisionInfo(Moveable moveable, Collidable collidable) {
-        int leftX = Math.max(moveable.getX(), collidable.getX());
-        int rightX = Math.min(moveable.getX() + moveable.getWidth(), collidable.getX() + collidable.getWidth());
-        int topY = Math.max(moveable.getY(), collidable.getY());
-        int bottomY = Math.min(moveable.getY() + moveable.getHeight(), collidable.getY() + collidable.getHeight());
+    private CollisionInfo getCollisionInfo(Collidable a, Collidable b) {
+        int leftX = Math.max(a.getX(), b.getX());
+        int rightX = Math.min(a.getX() + a.getWidth(), b.getX() + b.getWidth());
+        int topY = Math.max(a.getY(), b.getY());
+        int bottomY = Math.min(a.getY() + a.getHeight(), b.getY() + b.getHeight());
 
         int width = rightX - leftX;
         int height = bottomY - topY;
 
         if (width < height) {
-            if (moveable.getX() < collidable.getX()) {
-                return new CollisionInfo(moveable, collidable, CollisionInfo.Direction.HORIZONTAL, moveable);
+            if (a.getX() < b.getX()) {
+                return new CollisionInfo(a, b, CollisionInfo.Direction.HORIZONTAL, a);
             } else {
-                return new CollisionInfo(moveable, collidable, CollisionInfo.Direction.HORIZONTAL, collidable);
+                return new CollisionInfo(a, b, CollisionInfo.Direction.HORIZONTAL, b);
             }
         } else {
-            if (moveable.getY() < collidable.getY()) {
-                return new CollisionInfo(moveable, collidable, CollisionInfo.Direction.VERTICAL, moveable);
+            if (a.getY() < b.getY()) {
+                return new CollisionInfo(a, b, CollisionInfo.Direction.VERTICAL, a);
             } else {
-                return new CollisionInfo(moveable, collidable, CollisionInfo.Direction.VERTICAL, collidable);
+                return new CollisionInfo(a, b, CollisionInfo.Direction.VERTICAL, b);
             }
         }
     }

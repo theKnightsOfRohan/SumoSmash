@@ -81,7 +81,7 @@ public class Player extends Image implements Moveable {
                 this.xSpeed -= 2 * this.xAcceleration;
             }
         } else if (currentActions.contains("right")) {
-            if (this.xSpeed < this.maxXSpeed) {
+            if (Math.abs(this.xSpeed) < this.maxXSpeed) {
                 this.xSpeed += 2 * this.xAcceleration;
             }
         }
