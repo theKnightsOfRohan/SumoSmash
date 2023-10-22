@@ -4,13 +4,6 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-/**
- * This class represents a player in the SumoSmash game. It extends the Image
- * class and implements the Moveable and Shovable interfaces. It contains fields
- * for the player's speed, acceleration, jump charge, actions, and collision
- * properties. It also contains methods for moving the player, handling
- * collisions, and updating the player's state based on user input.
- */
 public class Player extends Image implements Moveable {
     private float xSpeed, ySpeed;
     private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
@@ -105,21 +98,25 @@ public class Player extends Image implements Moveable {
 
     public void onCollision(CollisionInfo info) {
         if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
-            if (info.getA() == this) {
-                this.y = info.getB().getY() - this.height;
-                this.ySpeed = 0;
-                this.canJump = true;
+            if (info.getLeftOrTop() == this) {
+                this.y = info.getRightOrBottom().getY() - this.height;
+                this.ySpeed *= -this.bounceFactor;
+                if (this.ySpeed > -2) {
+                    this.ySpeed = 0;
+                    this.canJump = true;
+                }
+
             } else {
-                this.y = info.getA().getY() + info.getA().getHeight();
-                this.ySpeed = 0;
+                this.y = info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight();
+                this.ySpeed *= -this.bounceFactor;
             }
         } else {
-            if (info.getA() == this) {
-                this.x = info.getB().getX() - this.width;
-                this.xSpeed = 0;
+            if (info.getLeftOrTop() == this) {
+                this.x = info.getRightOrBottom().getX() - this.width;
+                this.xSpeed *= -this.bounceFactor;
             } else {
-                this.x = info.getA().getX() + info.getA().getWidth();
-                this.xSpeed = 0;
+                this.x = info.getLeftOrTop().getX() + info.getLeftOrTop().getWidth();
+                this.xSpeed *= -this.bounceFactor;
             }
         }
     }

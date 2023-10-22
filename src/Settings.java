@@ -63,7 +63,7 @@ interface Moveable extends Collidable {
     /**
      * Moves the Moveable object within the game.
      * 
-     * @param app the Main object representing the game
+     * @param app the PApplet object representing the game
      */
     public void move(PApplet app);
 }

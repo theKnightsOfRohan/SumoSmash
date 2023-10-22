@@ -64,37 +64,30 @@ public class CollisionHandler {
 }
 
 class CollisionInfo {
-    private Collidable a;
-    private Collidable b;
+    private Collidable leftOrTop;
+    private Collidable rightOrBottom;
 
     enum Direction {
         HORIZONTAL, VERTICAL
     }
 
-    private Collidable leftOrTopCollidable;
-
     private Direction direction;
 
-    public CollisionInfo(Collidable a, Collidable b, Direction direction, Collidable leftOrTopCollidable) {
-        this.a = a;
-        this.b = b;
+    public CollisionInfo(Collidable first, Collidable second, Direction direction, Collidable leftOrTop) {
         this.direction = direction;
-        this.leftOrTopCollidable = leftOrTopCollidable;
+        this.leftOrTop = leftOrTop;
+        this.rightOrBottom = first == leftOrTop ? second : first;
     }
 
-    public Collidable getA() {
-        return a;
+    public Collidable getLeftOrTop() {
+        return leftOrTop;
     }
 
-    public Collidable getB() {
-        return b;
+    public Collidable getRightOrBottom() {
+        return rightOrBottom;
     }
 
     public Direction getDirection() {
         return direction;
-    }
-
-    public Collidable getLeftOrTopCollidable() {
-        return leftOrTopCollidable;
     }
 }
