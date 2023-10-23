@@ -112,7 +112,6 @@ public class Player extends Image implements Moveable {
                 }
             } else {
                 this.y = info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight();
-                // this.ySpeed *= -this.bounceFactor;
                 this.ySpeed = 0;
             }
         } else {
