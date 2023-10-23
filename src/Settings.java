@@ -10,9 +10,9 @@ public class Settings {
     public static final int PLATFORM_START_Y = 700;
     public static final int PLATFORM_WIDTH = 600;
     public static final int PLATFORM_HEIGHT = 300;
-    public static final int PLAYER_1_START_X = 200;
+    public static final int PLAYER_1_START_X = 300;
     public static final int PLAYER_1_START_Y = 200;
-    public static final int PLAYER_2_START_X = 800;
+    public static final int PLAYER_2_START_X = 600;
     public static final int PLAYER_2_START_Y = 200;
 }
 

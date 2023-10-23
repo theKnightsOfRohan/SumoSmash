@@ -15,6 +15,8 @@ public class Player extends Image implements Moveable {
     protected float friction;
     protected float debugX, debugY;
 
+    protected int spawnX, spawnY;
+
     /**
      * Constructor for the Player class.
      *
@@ -39,6 +41,8 @@ public class Player extends Image implements Moveable {
         this.friction = 0.8f;
         this.debugX = 10;
         this.debugY = 10;
+        this.spawnX = x;
+        this.spawnY = y;
     }
 
     public void act(PApplet app) {
@@ -208,8 +212,8 @@ public class Player extends Image implements Moveable {
      * Resets the player's position and speed to default values.
      */
     public void respawn() {
-        this.x = Settings.PLAYER_1_START_X;
-        this.y = Settings.PLAYER_1_START_Y;
+        this.x = this.spawnX;
+        this.y = this.spawnY;
         this.ySpeed = 0;
         this.xSpeed = 0;
         this.canJump = false;
