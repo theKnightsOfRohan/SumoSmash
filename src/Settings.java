@@ -1,4 +1,5 @@
 import java.util.List;
+
 import processing.core.PApplet;
 
 public class Settings {
@@ -22,35 +23,35 @@ public class Settings {
 interface Drawable {
     /**
      * This method is called to update the state of the drawable object.
-     * 
+     *
      * @param app the PApplet on which the object is being displayed
      */
     public void act(PApplet app);
 
     /**
      * This method returns the x-coordinate of the drawable object.
-     * 
+     *
      * @return the x-coordinate of the object
      */
     public int getX();
 
     /**
      * This method returns the y-coordinate of the drawable object.
-     * 
+     *
      * @return the y-coordinate of the object
      */
     public int getY();
 
     /**
      * This method returns the width of the drawable object.
-     * 
+     *
      * @return the width of the object
      */
     public int getWidth();
 
     /**
      * This method returns the height of the drawable object.
-     * 
+     *
      * @return the height of the object
      */
     public int getHeight();
@@ -62,10 +63,18 @@ interface Drawable {
 interface Moveable extends Collidable {
     /**
      * Moves the Moveable object within the game.
-     * 
+     *
      * @param app the PApplet object representing the game
      */
     public void move(PApplet app);
+
+    public float getXSpeed();
+
+    public float getYSpeed();
+
+    public void setXSpeed(float xSpeed);
+
+    public void setYSpeed(float ySpeed);
 }
 
 /**

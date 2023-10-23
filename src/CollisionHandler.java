@@ -26,10 +26,28 @@ public class CollisionHandler {
 
                 if (isCollision(moveable, collidable)) {
                     CollisionInfo info = getCollisionInfo(moveable, collidable);
-                    moveable.onCollision(info);
-                    collidable.onCollision(info);
+                    if (collidable instanceof Moveable) {
+                        handlePhysicsCollisions(info);
+                    } else {
+                        moveable.onCollision(info);
+                        collidable.onCollision(info);
+                    }
                 }
             }
+        }
+    }
+
+    public void handlePhysicsCollisions(CollisionInfo info){
+       Moveable Left = (Moveable) info.getLeftOrTop();
+       Moveable Right = (Moveable) info.getRightOrBottom();
+       float XSpeedR = Right.getXSpeed();
+       float XSpeedL = Left.getXSpeed();
+        if(Math.abs(XSpeedL)>=Math.abs(XSpeedR)){
+           Right.setXSpeed(XSpeedL+XSpeedR);
+           Left.setXSpeed(0f);
+       }else if(Math.abs(XSpeedR)>=Math.abs(XSpeedL)){
+            Left.setXSpeed(XSpeedR+XSpeedL);
+            Right.setXSpeed(0f);
         }
     }
 

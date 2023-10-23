@@ -17,7 +17,7 @@ public class Player extends Image implements Moveable {
 
     /**
      * Constructor for the Player class.
-     * 
+     *
      * @param x      The x-coordinate of the player.
      * @param y      The y-coordinate of the player.
      * @param width  The width of the player.
@@ -55,7 +55,7 @@ public class Player extends Image implements Moveable {
      * acceleration. Also performs any actions currently assigned to the player and
      * checks for collisions with immovable objects. If the player goes off-screen,
      * it is respawned.
-     * 
+     *
      * @param app the Main object representing the game
      */
     public void move(PApplet app) {
@@ -70,9 +70,33 @@ public class Player extends Image implements Moveable {
         }
     }
 
+    public void setXSpeed(float xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
+    public void setYSpeed(float ySpeed) {
+        this.ySpeed = ySpeed;
+    }
+
+    public float getXSpeed() {
+        return this.xSpeed;
+    }
+
+    public float getYSpeed() {
+        return this.ySpeed;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.ySpeed = y;
+    }
+
     /**
      * Performs actions based on the current set of actions.
-     * 
+     *
      * @param currentActions a HashSet of Strings representing the current set of
      *                       actions
      */
@@ -152,7 +176,7 @@ public class Player extends Image implements Moveable {
      * actions accordingly. If the key is pressed and not already in the current
      * actions, it is added. If the key is released, it is removed from the current
      * actions and if it is the jump key, the jump is released.
-     * 
+     *
      * @param key     the key being pressed or released
      * @param pressed true if the key is pressed, false if it is released
      */
@@ -170,7 +194,7 @@ public class Player extends Image implements Moveable {
 
     /**
      * Checks if the player is off the screen.
-     * 
+     *
      * @return true if the player is off the screen, false otherwise.
      */
     public boolean isOffScreen() {
