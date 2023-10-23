@@ -31,7 +31,7 @@ public class Player extends Image implements Moveable {
         this.chargeYAcceleration = -1;
         this.maxChargeYSpeed = -25;
         this.xAcceleration = 1;
-        this.maxXSpeed = 5;
+        this.maxXSpeed = 10;
         this.airAccScaleFactor = 0.9f;
         this.canJump = true;
         this.currentActions = new HashSet<String>();
@@ -103,15 +103,17 @@ public class Player extends Image implements Moveable {
         if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
             if (info.getLeftOrTop() == this) {
                 this.y = info.getRightOrBottom().getY() - this.height;
-                this.ySpeed *= -this.bounceFactor;
+                if (this.ySpeed > 0)
+                    this.ySpeed *= -this.bounceFactor;
+
                 if (this.ySpeed > -2) {
                     this.ySpeed = 0;
                     this.canJump = true;
                 }
-
             } else {
                 this.y = info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight();
-                this.ySpeed *= -this.bounceFactor;
+                // this.ySpeed *= -this.bounceFactor;
+                this.ySpeed = 0;
             }
         } else {
             if (info.getLeftOrTop() == this) {
