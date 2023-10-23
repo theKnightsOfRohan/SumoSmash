@@ -23,11 +23,11 @@ public class CollisionHandler {
             for (Collidable collidable : this.collidables) {
                 if (moveable == collidable)
                     continue;
-
                 if (isCollision(moveable, collidable)) {
                     CollisionInfo info = getCollisionInfo(moveable, collidable);
                     if (collidable instanceof Moveable) {
                         handlePhysicsCollisions(info);
+                        moveable.onCollision(info);
                     } else {
                         moveable.onCollision(info);
                         collidable.onCollision(info);
@@ -36,6 +36,7 @@ public class CollisionHandler {
             }
         }
     }
+
 
     public void handlePhysicsCollisions(CollisionInfo info){
        Moveable Left = (Moveable) info.getLeftOrTop();
