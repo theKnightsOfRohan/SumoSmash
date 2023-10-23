@@ -13,7 +13,7 @@ public class Dummy extends Player {
     }
 
     public void determineInput() {
-        if (this.x < 100) {
+        if (this.x < 300) {
             this.setKeys("right", true);
             this.setKeys("left", false);
         } else if (this.x > 700) {
