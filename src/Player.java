@@ -5,14 +5,15 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
-    private float xSpeed, ySpeed;
-    private float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
-    private float xAcceleration, maxXSpeed;
-    private float airAccScaleFactor;
-    private boolean canJump;
-    private HashSet<String> currentActions;
-    private float bounceFactor;
-    private float friction;
+    protected float xSpeed, ySpeed;
+    protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
+    protected float xAcceleration, maxXSpeed;
+    protected float airAccScaleFactor;
+    protected boolean canJump;
+    protected HashSet<String> currentActions;
+    protected float bounceFactor;
+    protected float friction;
+    protected float debugX, debugY;
 
     /**
      * Constructor for the Player class.
@@ -36,6 +37,8 @@ public class Player extends Image implements Moveable {
         this.currentActions = new HashSet<String>();
         this.bounceFactor = 0.2f;
         this.friction = 0.8f;
+        this.debugX = 10;
+        this.debugY = 10;
     }
 
     public void act(PApplet app) {
@@ -44,7 +47,7 @@ public class Player extends Image implements Moveable {
         app.stroke(255);
         super.act(app);
 
-        app.text("DEBUG: " + this.toString(), 10, 10);
+        app.text("DEBUG: " + this.toString(), this.debugX, this.debugY);
     }
 
     /**
@@ -73,7 +76,7 @@ public class Player extends Image implements Moveable {
      * @param currentActions a HashSet of Strings representing the current set of
      *                       actions
      */
-    private void doActions(HashSet<String> currentActions) {
+    protected void doActions(HashSet<String> currentActions) {
         if (currentActions.contains("jump"))
             this.chargeJump();
         else if (currentActions.contains("left")) {

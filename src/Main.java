@@ -22,6 +22,11 @@ public class Main extends PApplet {
         collisionHandler.addMoveable(player);
         collisionHandler.addCollidable(player);
 
+        Dummy dummy = new Dummy(Settings.PLAYER_2_START_X, Settings.PLAYER_2_START_Y, 50, 50);
+        drawables.add(dummy);
+        collisionHandler.addMoveable(dummy);
+        collisionHandler.addCollidable(dummy);
+
         Platform platform = new Platform(Settings.PLATFORM_START_X, Settings.PLATFORM_START_Y, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HEIGHT);
         drawables.add(platform);
         collisionHandler.addCollidable(platform);
