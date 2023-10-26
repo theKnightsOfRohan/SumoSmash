@@ -96,6 +96,10 @@ public class Player extends Image implements Moveable {
         this.ySpeed = y;
     }
 
+    public float getBounceFactor() {
+        return this.bounceFactor;
+    }
+
     /**
      * Performs actions based on the current set of actions.
      *
@@ -123,31 +127,6 @@ public class Player extends Image implements Moveable {
 
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
-    }
-
-    public void onCollision(CollisionInfo info) {
-        if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
-            if (info.getLeftOrTop() == this) {
-                this.y = info.getRightOrBottom().getY() - this.height;
-                if (this.ySpeed > 0)
-                    this.ySpeed *= -this.bounceFactor;
-
-                if (this.ySpeed > -2) {
-                    this.ySpeed = 0;
-                }
-            } else {
-                this.y = info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight();
-                this.ySpeed = 0;
-            }
-        } else {
-            if (info.getLeftOrTop() == this) {
-                this.x = info.getRightOrBottom().getX() - this.width;
-                this.xSpeed *= -this.bounceFactor;
-            } else {
-                this.x = info.getLeftOrTop().getX() + info.getLeftOrTop().getWidth();
-                this.xSpeed *= -this.bounceFactor;
-            }
-        }
     }
 
     /**
@@ -187,8 +166,8 @@ public class Player extends Image implements Moveable {
         } else {
             this.currentActions.remove(key);
             if (key.equals("jump")) {
+                this.releaseJump();
             }
-            this.releaseJump();
         }
     }
 

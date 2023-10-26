@@ -28,10 +28,45 @@ public class CollisionHandler {
                     if (collidable instanceof Moveable) {
                         handlePhysicsCollisions(info);
                     } else {
-                        moveable.onCollision(info);
-                        collidable.onCollision(info);
+                        handleSimpleCollisions(info);
                     }
                 }
+            }
+        }
+    }
+
+    private void handleSimpleCollisions(CollisionInfo info) {
+        if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
+            if (!(info.getLeftOrTop() instanceof Moveable)) {
+                Moveable Right = (Moveable) info.getRightOrBottom();
+                Right.setX(info.getLeftOrTop().getX() + info.getLeftOrTop().getWidth());
+                float newSpeed = -Right.getXSpeed() * Right.getBounceFactor();
+                if (Math.abs(newSpeed) < 2)
+                    newSpeed = 0;
+                Right.setXSpeed(newSpeed);
+            } else {
+                Moveable Left = (Moveable) info.getLeftOrTop();
+                Left.setX(info.getRightOrBottom().getX() - Left.getWidth());
+                float newSpeed = -Left.getXSpeed() * Left.getBounceFactor();
+                if (Math.abs(newSpeed) < 2)
+                    newSpeed = 0;
+                Left.setXSpeed(newSpeed);
+            }
+        } else if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
+            if (!(info.getLeftOrTop() instanceof Moveable)) {
+                Moveable Bottom = (Moveable) info.getRightOrBottom();
+                Bottom.setY(info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight());
+                float newSpeed = -Bottom.getYSpeed() * Bottom.getBounceFactor();
+                if (Math.abs(newSpeed) < 2)
+                    newSpeed = 0;
+                Bottom.setYSpeed(newSpeed);
+            } else {
+                Moveable Top = (Moveable) info.getLeftOrTop();
+                Top.setY(info.getRightOrBottom().getY() - Top.getHeight());
+                float newSpeed = -Top.getYSpeed() * Top.getBounceFactor();
+                if (Math.abs(newSpeed) < 2)
+                    newSpeed = 0;
+                Top.setYSpeed(newSpeed);
             }
         }
     }

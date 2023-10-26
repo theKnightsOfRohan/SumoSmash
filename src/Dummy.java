@@ -26,7 +26,7 @@ public class Dummy extends Player {
             this.setKeys("left", false);
             if (this.canJump())
                 this.setKeys("jump", true);
-            if (this.chargeYSpeed < this.maxChargeYSpeed)
+            if (this.chargeYSpeed > this.maxChargeYSpeed)
                 this.setKeys("jump", false);
         }
     }

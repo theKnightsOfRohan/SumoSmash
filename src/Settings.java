@@ -85,6 +85,8 @@ interface Moveable extends Collidable {
     public void setXSpeed(float xSpeed);
 
     public void setYSpeed(float ySpeed);
+
+    public float getBounceFactor();
 }
 
 /**
@@ -92,5 +94,4 @@ interface Moveable extends Collidable {
  * Drawable interface.
  */
 interface Collidable extends Drawable {
-    public void onCollision(CollisionInfo info);
 }
