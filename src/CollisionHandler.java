@@ -27,7 +27,6 @@ public class CollisionHandler {
                     CollisionInfo info = getCollisionInfo(moveable, collidable);
                     if (collidable instanceof Moveable) {
                         handlePhysicsCollisions(info);
-                        moveable.onCollision(info);
                     } else {
                         moveable.onCollision(info);
                         collidable.onCollision(info);
@@ -38,19 +37,40 @@ public class CollisionHandler {
     }
 
     public void handlePhysicsCollisions(CollisionInfo info) {
-        Moveable Left = (Moveable) info.getLeftOrTop();
-        Moveable Right = (Moveable) info.getRightOrBottom();
-        float xSpeedR = Right.getXSpeed();
-        float xSpeedL = Left.getXSpeed();
-
-        if ((xSpeedR < 0 && xSpeedL < 0) || (xSpeedL > 0 && xSpeedR > 0)) {
-            float diff = xSpeedL - xSpeedR;
-            Left.setXSpeed(diff);
-            Right.setXSpeed(-diff);
-        } else {
+        if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
+            Moveable Left = (Moveable) info.getLeftOrTop();
+            Moveable Right = (Moveable) info.getRightOrBottom();
+            float xSpeedR = Right.getXSpeed();
+            float xSpeedL = Left.getXSpeed();
             float sum = xSpeedL + xSpeedR;
-            Left.setXSpeed(-sum);
-            Right.setXSpeed(sum);
+
+            if (Math.abs(xSpeedL) > Math.abs(xSpeedR)) {
+                Right.setXSpeed(sum / 2);
+                Left.setXSpeed(-sum / 2);
+            } else {
+                Right.setXSpeed(-sum / 2);
+                Left.setXSpeed(sum / 2);
+            }
+
+            Left.setX(Right.getX() - Left.getWidth());
+            Right.setX(Left.getX() + Left.getWidth());
+        } else if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
+            Moveable Top = (Moveable) info.getLeftOrTop();
+            Moveable Bottom = (Moveable) info.getRightOrBottom();
+            float ySpeedT = Top.getYSpeed();
+            float ySpeedB = Bottom.getYSpeed();
+            float sum = ySpeedT + ySpeedB;
+
+            if (Math.abs(ySpeedT) > Math.abs(ySpeedB)) {
+                Bottom.setYSpeed(sum / 2);
+                Top.setYSpeed(-sum / 2);
+            } else {
+                Bottom.setYSpeed(-sum / 2);
+                Top.setYSpeed(sum / 2);
+            }
+
+            Top.setY(Bottom.getY() - Top.getHeight());
+            Bottom.setY(Top.getY() + Top.getHeight());
         }
     }
 

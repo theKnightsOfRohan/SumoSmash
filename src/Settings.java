@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import processing.core.PApplet;
@@ -6,14 +8,18 @@ public class Settings {
     public static final int SCREEN_WIDTH = 1000;
     public static final int SCREEN_HEIGHT = 1000;
     public static final int GRAVITY = 1;
-    public static final int PLATFORM_START_X = 200;
-    public static final int PLATFORM_START_Y = 700;
-    public static final int PLATFORM_WIDTH = 600;
-    public static final int PLATFORM_HEIGHT = 300;
-    public static final int PLAYER_1_START_X = 300;
-    public static final int PLAYER_1_START_Y = 200;
-    public static final int PLAYER_2_START_X = 600;
-    public static final int PLAYER_2_START_Y = 200;
+
+    public static enum StageNumber {
+        STAGE_1
+    };
+
+    class Stage1 {
+        public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
+        public static final int PLAYER_1_START_X = 300;
+        public static final int PLAYER_1_START_Y = 200;
+        public static final int PLAYER_2_START_X = 600;
+        public static final int PLAYER_2_START_Y = 200;
+    }
 }
 
 /**

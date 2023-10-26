@@ -9,7 +9,6 @@ public class Player extends Image implements Moveable {
     protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     protected float xAcceleration, maxXSpeed;
     protected float airAccScaleFactor;
-    protected boolean canJump;
     protected HashSet<String> currentActions;
     protected float bounceFactor;
     protected float friction;
@@ -35,7 +34,6 @@ public class Player extends Image implements Moveable {
         this.xAcceleration = 1;
         this.maxXSpeed = 10;
         this.airAccScaleFactor = 0.9f;
-        this.canJump = true;
         this.currentActions = new HashSet<String>();
         this.bounceFactor = 0.2f;
         this.friction = 0.8f;
@@ -117,7 +115,7 @@ public class Player extends Image implements Moveable {
             }
         }
 
-        if (this.canJump) {
+        if (this.canJump()) {
             this.xSpeed *= this.friction;
         } else {
             this.xSpeed *= this.airAccScaleFactor;
@@ -136,7 +134,6 @@ public class Player extends Image implements Moveable {
 
                 if (this.ySpeed > -2) {
                     this.ySpeed = 0;
-                    this.canJump = true;
                 }
             } else {
                 this.y = info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight();
@@ -158,20 +155,19 @@ public class Player extends Image implements Moveable {
      * not been reached and the player can jump.
      */
     public void chargeJump() {
-        if (this.chargeYSpeed > this.maxChargeYSpeed && this.canJump)
+        if (this.chargeYSpeed > this.maxChargeYSpeed && this.canJump())
             this.chargeYSpeed += this.chargeYAcceleration;
     }
 
     /**
      * Release the jump of the player if they have charged their jump and can jump.
-     * Sets the player's ySpeed to the charged ySpeed if they can jump. Sets canJump
-     * to false and chargeYSpeed to 0.
+     * Sets the player's ySpeed to the charged ySpeed if they can jump. Sets
+     * canJump() to false and chargeYSpeed to 0.
      */
     public void releaseJump() {
-        if (this.chargeYSpeed != 0 && this.canJump) {
+        if (this.chargeYSpeed != 0 && this.canJump()) {
             this.ySpeed = this.chargeYSpeed;
         }
-        this.canJump = false;
         this.chargeYSpeed = 0;
     }
 
@@ -216,8 +212,28 @@ public class Player extends Image implements Moveable {
         this.y = this.spawnY;
         this.ySpeed = 0;
         this.xSpeed = 0;
-        this.canJump = false;
         this.chargeYSpeed = 0;
+    }
+
+    public boolean canJump() {
+        return Math.abs(this.ySpeed) < 2 && isOnPlatform();
+    }
+
+    protected boolean isOnPlatform() {
+        switch (Main.currentStage) {
+            case STAGE_1 -> {
+                for (int[] platform : Settings.Stage1.platforms) {
+                    if (this.x + this.width > platform[0] && this.x < platform[0] + platform[2] && this.y + this.height >= platform[1]
+                            && this.y + this.height <= platform[1] + platform[3]) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            default -> {
+                return false;
+            }
+        }
     }
 
     /**
