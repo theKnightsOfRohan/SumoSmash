@@ -37,18 +37,20 @@ public class CollisionHandler {
         }
     }
 
+    public void handlePhysicsCollisions(CollisionInfo info) {
+        Moveable Left = (Moveable) info.getLeftOrTop();
+        Moveable Right = (Moveable) info.getRightOrBottom();
+        float xSpeedR = Right.getXSpeed();
+        float xSpeedL = Left.getXSpeed();
 
-    public void handlePhysicsCollisions(CollisionInfo info){
-       Moveable Left = (Moveable) info.getLeftOrTop();
-       Moveable Right = (Moveable) info.getRightOrBottom();
-       float XSpeedR = Right.getXSpeed();
-       float XSpeedL = Left.getXSpeed();
-        if(Math.abs(XSpeedL)>=Math.abs(XSpeedR)){
-           Right.setXSpeed(XSpeedL+XSpeedR);
-           Left.setXSpeed(0f);
-       }else if(Math.abs(XSpeedR)>=Math.abs(XSpeedL)){
-            Left.setXSpeed(XSpeedR+XSpeedL);
-            Right.setXSpeed(0f);
+        if ((xSpeedR < 0 && xSpeedL < 0) || (xSpeedL > 0 && xSpeedR > 0)) {
+            float diff = xSpeedL - xSpeedR;
+            Left.setXSpeed(diff);
+            Right.setXSpeed(-diff);
+        } else {
+            float sum = xSpeedL + xSpeedR;
+            Left.setXSpeed(-sum);
+            Right.setXSpeed(sum);
         }
     }
 
@@ -58,13 +60,13 @@ public class CollisionHandler {
     }
 
     private CollisionInfo getCollisionInfo(Collidable a, Collidable b) {
-        int leftX = Math.max(a.getX(), b.getX());
-        int rightX = Math.min(a.getX() + a.getWidth(), b.getX() + b.getWidth());
-        int topY = Math.max(a.getY(), b.getY());
-        int bottomY = Math.min(a.getY() + a.getHeight(), b.getY() + b.getHeight());
+        float leftX = Math.max(a.getX(), b.getX());
+        float rightX = Math.min(a.getX() + a.getWidth(), b.getX() + b.getWidth());
+        float topY = Math.max(a.getY(), b.getY());
+        float bottomY = Math.min(a.getY() + a.getHeight(), b.getY() + b.getHeight());
 
-        int width = rightX - leftX;
-        int height = bottomY - topY;
+        float width = rightX - leftX;
+        float height = bottomY - topY;
 
         if (width < height) {
             if (a.getX() < b.getX()) {
