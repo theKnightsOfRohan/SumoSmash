@@ -228,7 +228,7 @@ public class Player extends Image implements Moveable {
      * @return a string representation of the Player object
      */
     public String toString() {
-        return String.format("Player at (%d, %d) with xSpeed %.4f, ySpeed %f, chargeYSpeed %f, and actions %s", this.x, this.y, this.xSpeed,
+        return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,
                 this.ySpeed, this.chargeYSpeed, this.currentActions);
     }
 }

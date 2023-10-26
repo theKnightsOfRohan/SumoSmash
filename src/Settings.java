@@ -33,28 +33,32 @@ interface Drawable {
      *
      * @return the x-coordinate of the object
      */
-    public int getX();
+    public float getX();
 
     /**
      * This method returns the y-coordinate of the drawable object.
      *
      * @return the y-coordinate of the object
      */
-    public int getY();
+    public float getY();
+
+    public void setX(float x);
+
+    public void setY(float y);
 
     /**
      * This method returns the width of the drawable object.
      *
      * @return the width of the object
      */
-    public int getWidth();
+    public float getWidth();
 
     /**
      * This method returns the height of the drawable object.
      *
      * @return the height of the object
      */
-    public int getHeight();
+    public float getHeight();
 }
 
 /**

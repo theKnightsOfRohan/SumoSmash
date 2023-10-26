@@ -6,7 +6,7 @@ import processing.core.PImage;
  * that can be drawn on the screen.
  */
 public class Image implements Drawable {
-    protected int x, y, width, height;
+    protected float x, y, width, height;
     protected PImage sprite;
 
     /**
@@ -42,7 +42,7 @@ public class Image implements Drawable {
      * 
      * @return the x-coordinate of the top-left corner of the image
      */
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -51,8 +51,16 @@ public class Image implements Drawable {
      * 
      * @return the y-coordinate of the top-left corner of the image
      */
-    public int getY() {
+    public float getY() {
         return y;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     /**
@@ -60,7 +68,7 @@ public class Image implements Drawable {
      * 
      * @return the width of the image
      */
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
@@ -69,7 +77,7 @@ public class Image implements Drawable {
      * 
      * @return the height of the image
      */
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 }
