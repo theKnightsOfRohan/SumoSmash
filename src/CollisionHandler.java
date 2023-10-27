@@ -51,35 +51,35 @@ public class CollisionHandler {
     private void handleSimpleCollisions(CollisionInfo info) {
         if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
             if (!(info.getLeftOrTop() instanceof Moveable)) {
-                Moveable Right = (Moveable) info.getRightOrBottom();
-                Right.setX(info.getLeftOrTop().getX() + info.getLeftOrTop().getWidth());
-                float newSpeed = -Right.getXSpeed() * Right.getBounceFactor();
+                Moveable right = (Moveable) info.getRightOrBottom();
+                right.setX(info.getLeftOrTop().getX() + info.getLeftOrTop().getWidth());
+                float newSpeed = -right.getXSpeed() * right.getBounceFactor();
                 if (Math.abs(newSpeed) < 2)
                     newSpeed = 0;
-                Right.setXSpeed(newSpeed);
+                right.setXSpeed(newSpeed);
             } else {
-                Moveable Left = (Moveable) info.getLeftOrTop();
-                Left.setX(info.getRightOrBottom().getX() - Left.getWidth());
-                float newSpeed = -Left.getXSpeed() * Left.getBounceFactor();
+                Moveable left = (Moveable) info.getLeftOrTop();
+                left.setX(info.getRightOrBottom().getX() - left.getWidth());
+                float newSpeed = -left.getXSpeed() * left.getBounceFactor();
                 if (Math.abs(newSpeed) < 2)
                     newSpeed = 0;
-                Left.setXSpeed(newSpeed);
+                left.setXSpeed(newSpeed);
             }
         } else if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
             if (!(info.getLeftOrTop() instanceof Moveable)) {
-                Moveable Bottom = (Moveable) info.getRightOrBottom();
-                Bottom.setY(info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight());
-                float newSpeed = -Bottom.getYSpeed() * Bottom.getBounceFactor();
+                Moveable bottom = (Moveable) info.getRightOrBottom();
+                bottom.setY(info.getLeftOrTop().getY() + info.getLeftOrTop().getHeight());
+                float newSpeed = -bottom.getYSpeed() * bottom.getBounceFactor();
                 if (Math.abs(newSpeed) < 2)
                     newSpeed = 0;
-                Bottom.setYSpeed(newSpeed);
+                bottom.setYSpeed(newSpeed);
             } else {
-                Moveable Top = (Moveable) info.getLeftOrTop();
-                Top.setY(info.getRightOrBottom().getY() - Top.getHeight());
-                float newSpeed = -Top.getYSpeed() * Top.getBounceFactor();
+                Moveable top = (Moveable) info.getLeftOrTop();
+                top.setY(info.getRightOrBottom().getY() - top.getHeight());
+                float newSpeed = -top.getYSpeed() * top.getBounceFactor();
                 if (Math.abs(newSpeed) < 2)
                     newSpeed = 0;
-                Top.setYSpeed(newSpeed);
+                top.setYSpeed(newSpeed);
             }
         }
     }
@@ -91,39 +91,39 @@ public class CollisionHandler {
      */
     public void handlePhysicsCollisions(CollisionInfo info) {
         if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
-            Moveable Left = (Moveable) info.getLeftOrTop();
-            Moveable Right = (Moveable) info.getRightOrBottom();
-            float xSpeedR = Right.getXSpeed();
-            float xSpeedL = Left.getXSpeed();
+            Moveable left = (Moveable) info.getLeftOrTop();
+            Moveable right = (Moveable) info.getRightOrBottom();
+            float xSpeedR = right.getXSpeed();
+            float xSpeedL = left.getXSpeed();
             float sum = xSpeedL + xSpeedR;
 
             if (Math.abs(xSpeedL) > Math.abs(xSpeedR)) {
-                Right.setXSpeed(sum / 2);
-                Left.setXSpeed(-sum / 2);
+                right.setXSpeed(sum / 2);
+                left.setXSpeed(-sum / 2);
             } else {
-                Right.setXSpeed(-sum / 2);
-                Left.setXSpeed(sum / 2);
+                right.setXSpeed(-sum / 2);
+                left.setXSpeed(sum / 2);
             }
 
-            Left.setX(Right.getX() - Left.getWidth());
-            Right.setX(Left.getX() + Left.getWidth());
+            left.setX(right.getX() - left.getWidth());
+            right.setX(left.getX() + left.getWidth());
         } else if (info.getDirection() == CollisionInfo.Direction.VERTICAL) {
-            Moveable Top = (Moveable) info.getLeftOrTop();
-            Moveable Bottom = (Moveable) info.getRightOrBottom();
-            float ySpeedT = Top.getYSpeed();
-            float ySpeedB = Bottom.getYSpeed();
+            Moveable top = (Moveable) info.getLeftOrTop();
+            Moveable bottom = (Moveable) info.getRightOrBottom();
+            float ySpeedT = top.getYSpeed();
+            float ySpeedB = bottom.getYSpeed();
             float sum = ySpeedT + ySpeedB;
 
             if (Math.abs(ySpeedT) > Math.abs(ySpeedB)) {
-                Bottom.setYSpeed(sum / 2);
-                Top.setYSpeed(-sum / 2);
+                bottom.setYSpeed(sum / 2);
+                top.setYSpeed(-sum / 2);
             } else {
-                Bottom.setYSpeed(-sum / 2);
-                Top.setYSpeed(sum / 2);
+                bottom.setYSpeed(-sum / 2);
+                top.setYSpeed(sum / 2);
             }
 
-            Top.setY(Bottom.getY() - Top.getHeight());
-            Bottom.setY(Top.getY() + Top.getHeight());
+            top.setY(bottom.getY() - top.getHeight());
+            bottom.setY(top.getY() + top.getHeight());
         }
     }
 
