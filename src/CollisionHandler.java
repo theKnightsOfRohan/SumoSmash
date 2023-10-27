@@ -18,6 +18,12 @@ public class CollisionHandler {
         this.moveables.add(moveable);
     }
 
+    /**
+     * Handles collisions between moveable and collidable objects. Loops through all
+     * moveables and collidables and checks for collisions. If a collision is
+     * detected, it creates a CollisionInfo object and calls the appropriate
+     * collision handling method.
+     */
     public void handleCollisions() {
         for (Moveable moveable : this.moveables) {
             for (Collidable collidable : this.collidables) {
@@ -35,6 +41,13 @@ public class CollisionHandler {
         }
     }
 
+    /**
+     * Handles simple collisions between two objects by updating their positions and
+     * speeds based on their bounce factors.
+     * 
+     * @param info the CollisionInfo object containing information about the
+     *             collision
+     */
     private void handleSimpleCollisions(CollisionInfo info) {
         if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
             if (!(info.getLeftOrTop() instanceof Moveable)) {
@@ -71,6 +84,11 @@ public class CollisionHandler {
         }
     }
 
+    /**
+     * Handles physics collisions between moveable objects.
+     * 
+     * @param info the collision information
+     */
     public void handlePhysicsCollisions(CollisionInfo info) {
         if (info.getDirection() == CollisionInfo.Direction.HORIZONTAL) {
             Moveable Left = (Moveable) info.getLeftOrTop();
@@ -124,6 +142,13 @@ class CollisionInfo {
         HORIZONTAL, VERTICAL
     }
 
+    /**
+     * Constructs a CollisionInfo object that stores information about the collision
+     * between two Collidable objects.
+     * 
+     * @param first  the first Collidable object involved in the collision
+     * @param second the second Collidable object involved in the collision
+     */
     public CollisionInfo(Collidable first, Collidable second) {
         float leftX = Math.max(first.getX(), second.getX());
         float rightX = Math.min(first.getX() + first.getWidth(), second.getX() + second.getWidth());

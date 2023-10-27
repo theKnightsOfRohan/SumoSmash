@@ -54,9 +54,8 @@ public class Player extends Image implements Moveable {
 
     /**
      * Moves the player by updating its position based on its current speed and
-     * acceleration. Also performs any actions currently assigned to the player and
-     * checks for collisions with immovable objects. If the player goes off-screen,
-     * it is respawned.
+     * acceleration. Also performs any actions currently assigned to the player. If
+     * the player goes off-screen, it is respawned.
      *
      * @param app the Main object representing the game
      */
@@ -194,10 +193,21 @@ public class Player extends Image implements Moveable {
         this.chargeYSpeed = 0;
     }
 
+    /**
+     * Returns a boolean indicating whether the player can jump or not. A player can
+     * jump if their ySpeed is less than 2 and they are on a platform.
+     *
+     * @return true if the player can jump, false otherwise
+     */
     public boolean canJump() {
         return Math.abs(this.ySpeed) < 2 && isOnPlatform();
     }
 
+    /**
+     * Checks if the player is currently on a platform in the current stage.
+     * 
+     * @return true if the player is on a platform, false otherwise.
+     */
     protected boolean isOnPlatform() {
         switch (Main.currentStage) {
             case STAGE_1 -> {
@@ -216,11 +226,10 @@ public class Player extends Image implements Moveable {
     }
 
     /**
-     * Returns a string representation of the Player object. The string contains the
-     * player's x and y coordinates, x and y speeds, charge y speed, and current
-     * actions. The x speed is truncated to 4 decimal places.
-     *
-     * @return a string representation of the Player object
+     * Returns a string representation of the Player object.
+     * 
+     * @return a formatted string containing the Player's position, speed, charge
+     *         speed, and current actions
      */
     public String toString() {
         return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,

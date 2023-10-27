@@ -71,11 +71,6 @@ interface Drawable {
  * This interface represents a Moveable object that can move within the game.
  */
 interface Moveable extends Collidable {
-    /**
-     * Moves the Moveable object within the game.
-     *
-     * @param app the PApplet object representing the game
-     */
     public void move(PApplet app);
 
     public float getXSpeed();
