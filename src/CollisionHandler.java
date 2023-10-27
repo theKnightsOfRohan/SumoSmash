@@ -24,7 +24,7 @@ public class CollisionHandler {
                 if (moveable == collidable)
                     continue;
                 if (isCollision(moveable, collidable)) {
-                    CollisionInfo info = getCollisionInfo(moveable, collidable);
+                    CollisionInfo info = new CollisionInfo(moveable, collidable);
                     if (collidable instanceof Moveable) {
                         handlePhysicsCollisions(info);
                     } else {
@@ -113,46 +113,47 @@ public class CollisionHandler {
         return a.getX() + a.getWidth() > b.getX() && a.getX() < b.getX() + b.getWidth() && a.getY() + a.getHeight() > b.getY()
                 && a.getY() < b.getY() + b.getHeight();
     }
-
-    private CollisionInfo getCollisionInfo(Collidable a, Collidable b) {
-        float leftX = Math.max(a.getX(), b.getX());
-        float rightX = Math.min(a.getX() + a.getWidth(), b.getX() + b.getWidth());
-        float topY = Math.max(a.getY(), b.getY());
-        float bottomY = Math.min(a.getY() + a.getHeight(), b.getY() + b.getHeight());
-
-        float width = rightX - leftX;
-        float height = bottomY - topY;
-
-        if (width < height) {
-            if (a.getX() < b.getX()) {
-                return new CollisionInfo(a, b, CollisionInfo.Direction.HORIZONTAL, a);
-            } else {
-                return new CollisionInfo(a, b, CollisionInfo.Direction.HORIZONTAL, b);
-            }
-        } else {
-            if (a.getY() < b.getY()) {
-                return new CollisionInfo(a, b, CollisionInfo.Direction.VERTICAL, a);
-            } else {
-                return new CollisionInfo(a, b, CollisionInfo.Direction.VERTICAL, b);
-            }
-        }
-    }
 }
 
 class CollisionInfo {
     private Collidable leftOrTop;
     private Collidable rightOrBottom;
+    private Direction direction;
 
     enum Direction {
         HORIZONTAL, VERTICAL
     }
 
-    private Direction direction;
+    public CollisionInfo(Collidable first, Collidable second) {
+        float leftX = Math.max(first.getX(), second.getX());
+        float rightX = Math.min(first.getX() + first.getWidth(), second.getX() + second.getWidth());
+        float topY = Math.max(first.getY(), second.getY());
+        float bottomY = Math.min(first.getY() + first.getHeight(), second.getY() + second.getHeight());
 
-    public CollisionInfo(Collidable first, Collidable second, Direction direction, Collidable leftOrTop) {
-        this.direction = direction;
-        this.leftOrTop = leftOrTop;
-        this.rightOrBottom = first == leftOrTop ? second : first;
+        float width = rightX - leftX;
+        float height = bottomY - topY;
+
+        if (width < height) {
+            if (first.getX() < second.getX()) {
+                this.direction = Direction.HORIZONTAL;
+                this.leftOrTop = first;
+                this.rightOrBottom = second;
+            } else {
+                this.direction = Direction.HORIZONTAL;
+                this.leftOrTop = second;
+                this.rightOrBottom = first;
+            }
+        } else {
+            if (first.getY() < second.getY()) {
+                this.direction = Direction.VERTICAL;
+                this.leftOrTop = first;
+                this.rightOrBottom = second;
+            } else {
+                this.direction = Direction.VERTICAL;
+                this.leftOrTop = second;
+                this.rightOrBottom = first;
+            }
+        }
     }
 
     public Collidable getLeftOrTop() {
