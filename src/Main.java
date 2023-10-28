@@ -7,65 +7,32 @@ public class Main extends PApplet {
     Player player;
     List<Drawable> drawables;
     CollisionHandler collisionHandler;
-    static Settings.StageNumber currentStage;
+    static Settings.Stage currentStage;
+    Settings.GameState gameState;
 
     public void settings() {
         size(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
     }
 
     public void setup() {
-        collisionHandler = new CollisionHandler();
-        currentStage = Settings.StageNumber.STAGE_1;
-
-        drawables = new ArrayList<Drawable>();
-
-        player = new Player(Settings.Stage1.PLAYER_1_START_X, Settings.Stage1.PLAYER_1_START_Y, 50, 50);
-        drawables.add(player);
-        collisionHandler.addMoveable(player);
-        collisionHandler.addCollidable(player);
-
-        Dummy dummy = new Dummy(Settings.Stage1.PLAYER_2_START_X, Settings.Stage1.PLAYER_2_START_Y, 50, 50);
-        drawables.add(dummy);
-        collisionHandler.addMoveable(dummy);
-        collisionHandler.addCollidable(dummy);
-
-        for (int[] platform : Settings.Stage1.platforms) {
-            Platform p = new Platform(platform[0], platform[1], platform[2], platform[3]);
-            drawables.add(p);
-            collisionHandler.addCollidable(p);
-        }
+        currentStage = Settings.Stage.STAGE_1;
+        gameState = new Stage1();
     }
 
     public void draw() {
-        background(200);
-        for (Drawable drawable : drawables) {
-            drawable.act(this);
-        }
-
-        collisionHandler.handleCollisions();
-        fill(0);
+        gameState.draw(this);
     }
 
     public void keyPressed() {
-        if (key == ' ' || key == 'w' || keyCode == UP) {
-            player.setKeys("jump", true);
-        } else if (key == 'a' || keyCode == LEFT) {
-            player.setKeys("left", true);
-            player.setKeys("right", false);
-        } else if (key == 'd' || keyCode == RIGHT) {
-            player.setKeys("right", true);
-            player.setKeys("left", false);
-        }
+        gameState.handleKey(this, true);
     }
 
     public void keyReleased() {
-        if (key == ' ' || key == 'w' || keyCode == UP) {
-            player.setKeys("jump", false);
-        } else if (key == 'a' || keyCode == LEFT) {
-            player.setKeys("left", false);
-        } else if (key == 'd' || keyCode == RIGHT) {
-            player.setKeys("right", false);
-        }
+        gameState.handleKey(this, false);
+    }
+
+    public void mouseReleased() {
+        gameState.handleClick(mouseX, mouseY);
     }
 
     public static void main(String[] args) {

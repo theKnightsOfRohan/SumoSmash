@@ -9,16 +9,23 @@ public class Settings {
     public static final int SCREEN_HEIGHT = 1000;
     public static final int GRAVITY = 1;
 
-    public static enum StageNumber {
-        STAGE_1
+    public static enum Stage {
+        OPTIONS, STAGE_1
     };
 
-    class Stage1 {
-        public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
-        public static final int PLAYER_1_START_X = 300;
-        public static final int PLAYER_1_START_Y = 200;
-        public static final int PLAYER_2_START_X = 600;
-        public static final int PLAYER_2_START_Y = 200;
+    interface GameState {
+        public void draw(PApplet app);
+
+        public void handleKey(PApplet app, boolean pressed);
+
+        public void handleClick(int x, int y);
+    }
+
+    class Options {
+        public static final int BUTTON_WIDTH = 200;
+        public static final int BUTTON_HEIGHT = 50;
+        public static final int BUTTON_X = 400;
+        public static final int BUTTON_Y = 400;
     }
 }
 

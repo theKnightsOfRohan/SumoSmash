@@ -211,7 +211,7 @@ public class Player extends Image implements Moveable {
     protected boolean isOnPlatform() {
         switch (Main.currentStage) {
             case STAGE_1 -> {
-                for (int[] platform : Settings.Stage1.platforms) {
+                for (int[] platform : Stage1.platforms) {
                     if (this.x + this.width > platform[0] && this.x < platform[0] + platform[2] && this.y + this.height >= platform[1]
                             && this.y + this.height <= platform[1] + platform[3]) {
                         return true;
