@@ -48,7 +48,7 @@ class Stage1 implements Settings.GameState {
     List<Button> buttons;
     CollisionHandler collisionHandler;
 
-    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
+    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][]{new int[]{200, 700, 600, 300}}));
     public static final int PLAYER_1_START_X = 300;
     public static final int PLAYER_1_START_Y = 200;
     public static final int PLAYER_2_START_X = 600;
@@ -101,20 +101,28 @@ class Stage1 implements Settings.GameState {
         if (pressed) {
             if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
                 player.setKeys("jump", true);
-            } else if (main.key == 'a' || main.keyCode == PConstants.LEFT) {
+            } else if (main.key == 'a') {
                 player.setKeys("left", true);
                 player.setKeys("right", false);
-            } else if (main.key == 'd' || main.keyCode == PConstants.RIGHT) {
+            } else if (main.key == 'd') {
                 player.setKeys("right", true);
                 player.setKeys("left", false);
+            } else if (main.keyCode == PConstants.LEFT) {
+                player.setKeys("lDash", true);
+            } else if (main.keyCode == PConstants.RIGHT) {
+                player.setKeys("rDash", true);
             }
         } else {
             if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
                 player.setKeys("jump", false);
-            } else if (main.key == 'a' || main.keyCode == PConstants.LEFT) {
+            } else if (main.key == 'a') {
                 player.setKeys("left", false);
-            } else if (main.key == 'd' || main.keyCode == PConstants.RIGHT) {
+            } else if (main.key == 'd') {
                 player.setKeys("right", false);
+            } else if (main.keyCode == PConstants.LEFT) {
+                player.setKeys("lDash", false);
+            } else if (main.keyCode == PConstants.RIGHT) {
+                player.setKeys("rDash", false);
             }
         }
     }

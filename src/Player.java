@@ -6,15 +6,17 @@ import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
     protected float xSpeed, ySpeed;
+    protected float dashCooldown;
     protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     protected float xAcceleration, maxXSpeed;
+    protected float maxDashSpeed;
     protected float airAccScaleFactor;
     protected HashSet<String> currentActions;
     protected float bounceFactor;
     protected float friction;
     protected float debugX, debugY;
-
     protected int spawnX, spawnY;
+
 
     /**
      * Constructor for the Player class.
@@ -33,6 +35,7 @@ public class Player extends Image implements Moveable {
         this.maxChargeYSpeed = -25;
         this.xAcceleration = 1;
         this.maxXSpeed = 10;
+        this.maxDashSpeed = 20;
         this.airAccScaleFactor = 0.9f;
         this.currentActions = new HashSet<String>();
         this.bounceFactor = 0.2f;
@@ -41,6 +44,7 @@ public class Player extends Image implements Moveable {
         this.debugY = 10;
         this.spawnX = x;
         this.spawnY = y;
+        this.dashCooldown = 0;
     }
 
     public void act(PApplet app) {
@@ -48,7 +52,9 @@ public class Player extends Image implements Moveable {
         app.fill(0);
         app.stroke(255);
         super.act(app);
-
+        if (dashCooldown > 0) {
+            dashCooldown--;
+        }
         app.text("DEBUG: " + this.toString(), this.debugX, this.debugY);
     }
 
@@ -115,6 +121,24 @@ public class Player extends Image implements Moveable {
         } else if (currentActions.contains("right")) {
             if (Math.abs(this.xSpeed) < this.maxXSpeed) {
                 this.xSpeed += 2 * this.xAcceleration;
+            }
+        } else if (currentActions.contains("lDash") && this.dashCooldown == 0) {
+            if(isOnPlatform()){
+                this.xSpeed -= 40;
+                dashCooldown = 120;
+            }else{
+                ySpeed = -1;
+                this.xSpeed -= 20;
+                dashCooldown = 120;
+            }
+        } else if (currentActions.contains("rDash") && this.dashCooldown == 0) {
+            if(isOnPlatform()){
+                this.xSpeed += 40;
+                dashCooldown = 120;
+            }else{
+                ySpeed = -1;
+                this.xSpeed += 20;
+                dashCooldown = 120;
             }
         }
 
@@ -205,7 +229,7 @@ public class Player extends Image implements Moveable {
 
     /**
      * Checks if the player is currently on a platform in the current stage.
-     * 
+     *
      * @return true if the player is on a platform, false otherwise.
      */
     protected boolean isOnPlatform() {
@@ -227,9 +251,9 @@ public class Player extends Image implements Moveable {
 
     /**
      * Returns a string representation of the Player object.
-     * 
+     *
      * @return a formatted string containing the Player's position, speed, charge
-     *         speed, and current actions
+     * speed, and current actions
      */
     public String toString() {
         return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,
