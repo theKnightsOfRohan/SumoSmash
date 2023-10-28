@@ -20,13 +20,6 @@ public class Settings {
 
         public void handleClick(int x, int y);
     }
-
-    class Options {
-        public static final int BUTTON_WIDTH = 200;
-        public static final int BUTTON_HEIGHT = 50;
-        public static final int BUTTON_X = 400;
-        public static final int BUTTON_Y = 400;
-    }
 }
 
 /**

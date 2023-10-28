@@ -5,9 +5,40 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-class OptionsSelect {
-    public void setup() {
+class OptionsSelect implements Settings.GameState {
+    List<Button> buttons;
 
+    public static final int BUTTON_WIDTH = 200;
+    public static final int BUTTON_HEIGHT = 50;
+    public static final int BUTTON_X = 400;
+    public static final int BUTTON_Y = 400;
+
+    public OptionsSelect() {
+        buttons = new ArrayList<>();
+        Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, (Void) -> {
+            Main.currentStage = Settings.Stage.STAGE_1;
+            Main.gameState = new Stage1();
+            return null;
+        });
+        buttons.add(button);
+    }
+
+    public void draw(PApplet app) {
+        app.background(200);
+        for (Button button : buttons) {
+            button.act(app);
+        }
+    }
+
+    public void handleKey(PApplet main, boolean pressed) {
+    }
+
+    public void handleClick(int mouseX, int mouseY) {
+        for (Button button : buttons) {
+            if (button.isClicked(mouseX, mouseY)) {
+                button.onClick.apply(null);
+            }
+        }
     }
 }
 
@@ -50,6 +81,7 @@ class Stage1 implements Settings.GameState {
 
         Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, (Void) -> {
             Main.currentStage = Settings.Stage.OPTIONS;
+            Main.gameState = new OptionsSelect();
             return null;
         });
         buttons.add(menuButton);
