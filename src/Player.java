@@ -7,9 +7,11 @@ import processing.core.PImage;
 public class Player extends Image implements Moveable {
     protected float xSpeed, ySpeed;
     protected float dashCooldown;
+    protected float dashCooldownIncrement;
+    protected float dashSpeedIncrease;
+    protected float maxDashSpeed;
     protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     protected float xAcceleration, maxXSpeed;
-    protected float maxDashSpeed;
     protected float airAccScaleFactor;
     protected HashSet<String> currentActions;
     protected float bounceFactor;
@@ -44,6 +46,8 @@ public class Player extends Image implements Moveable {
         this.spawnX = x;
         this.spawnY = y;
         this.dashCooldown = 0;
+        this.dashCooldownIncrement = 120;
+        this.dashSpeedIncrease = 40;
     }
 
     public void act(PApplet app) {
@@ -125,22 +129,27 @@ public class Player extends Image implements Moveable {
 
         if (currentActions.contains("lDash") && this.dashCooldown == 0) {
             if (isOnPlatform()) {
-                this.xSpeed -= 40;
-                dashCooldown = 120;
+                this.xSpeed -= this.dashSpeedIncrease;
             } else {
                 ySpeed = -1;
-                this.xSpeed -= 20;
-                dashCooldown = 120;
+                this.xSpeed -= this.dashSpeedIncrease / 2;
             }
+            this.dashCooldown = this.dashCooldownIncrement;
+            // currentActions.remove("lDash");
         } else if (currentActions.contains("rDash") && this.dashCooldown == 0) {
             if (isOnPlatform()) {
-                this.xSpeed += 40;
-                dashCooldown = 120;
+                this.xSpeed += this.dashSpeedIncrease;
             } else {
                 ySpeed = -1;
-                this.xSpeed += 20;
-                dashCooldown = 120;
+                this.xSpeed += this.dashSpeedIncrease / 2;
             }
+            this.dashCooldown = this.dashCooldownIncrement;
+        } else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
+            this.ySpeed -= this.dashSpeedIncrease;
+            this.dashCooldown = this.dashCooldownIncrement;
+        } else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
+            this.ySpeed += this.dashSpeedIncrease;
+            this.dashCooldown = this.dashCooldownIncrement;
         }
 
         if (this.canJump()) {

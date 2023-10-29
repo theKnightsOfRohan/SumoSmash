@@ -101,7 +101,7 @@ class Stage1 implements GameState {
 
     public void handleKey(PApplet main, boolean pressed) {
         if (pressed) {
-            if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
+            if (main.key == ' ' || main.key == 'w') {
                 player.setKeys("jump", true);
             } else if (main.key == 'a') {
                 player.setKeys("left", true);
@@ -113,9 +113,13 @@ class Stage1 implements GameState {
                 player.setKeys("lDash", true);
             } else if (main.keyCode == PConstants.RIGHT) {
                 player.setKeys("rDash", true);
+            } else if (main.keyCode == PConstants.UP) {
+                player.setKeys("uDash", true);
+            } else if (main.keyCode == PConstants.DOWN) {
+                player.setKeys("dDash", true);
             }
         } else {
-            if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
+            if (main.key == ' ' || main.key == 'w') {
                 player.setKeys("jump", false);
             } else if (main.key == 'a') {
                 player.setKeys("left", false);
@@ -125,6 +129,10 @@ class Stage1 implements GameState {
                 player.setKeys("lDash", false);
             } else if (main.keyCode == PConstants.RIGHT) {
                 player.setKeys("rDash", false);
+            } else if (main.keyCode == PConstants.UP) {
+                player.setKeys("uDash", false);
+            } else if (main.keyCode == PConstants.DOWN) {
+                player.setKeys("dDash", false);
             } else if (main.key == 'p') {
                 paused = !paused;
             }
