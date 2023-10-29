@@ -17,7 +17,6 @@ public class Player extends Image implements Moveable {
     protected float debugX, debugY;
     protected int spawnX, spawnY;
 
-
     /**
      * Constructor for the Player class.
      *
@@ -122,20 +121,22 @@ public class Player extends Image implements Moveable {
             if (Math.abs(this.xSpeed) < this.maxXSpeed) {
                 this.xSpeed += 2 * this.xAcceleration;
             }
-        } else if (currentActions.contains("lDash") && this.dashCooldown == 0) {
-            if(isOnPlatform()){
+        }
+
+        if (currentActions.contains("lDash") && this.dashCooldown == 0) {
+            if (isOnPlatform()) {
                 this.xSpeed -= 40;
                 dashCooldown = 120;
-            }else{
+            } else {
                 ySpeed = -1;
                 this.xSpeed -= 20;
                 dashCooldown = 120;
             }
         } else if (currentActions.contains("rDash") && this.dashCooldown == 0) {
-            if(isOnPlatform()){
+            if (isOnPlatform()) {
                 this.xSpeed += 40;
                 dashCooldown = 120;
-            }else{
+            } else {
                 ySpeed = -1;
                 this.xSpeed += 20;
                 dashCooldown = 120;
@@ -253,7 +254,7 @@ public class Player extends Image implements Moveable {
      * Returns a string representation of the Player object.
      *
      * @return a formatted string containing the Player's position, speed, charge
-     * speed, and current actions
+     *         speed, and current actions
      */
     public String toString() {
         return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,

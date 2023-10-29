@@ -8,7 +8,7 @@ public class Main extends PApplet {
     List<Drawable> drawables;
     CollisionHandler collisionHandler;
     static Settings.Stage currentStage;
-    static Settings.GameState gameState;
+    static GameState gameState;
 
     public void settings() {
         size(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);

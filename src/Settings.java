@@ -13,13 +13,14 @@ public class Settings {
         OPTIONS, STAGE_1
     };
 
-    interface GameState {
-        public void draw(PApplet app);
+}
 
-        public void handleKey(PApplet app, boolean pressed);
+interface GameState {
+    public void draw(PApplet app);
 
-        public void handleClick(int x, int y);
-    }
+    public void handleKey(PApplet app, boolean pressed);
+
+    public void handleClick(int x, int y);
 }
 
 /**
