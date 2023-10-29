@@ -1,11 +1,10 @@
-import java.util.function.Function;
 
 import processing.core.PApplet;
 
 public class Button extends Image {
-    public Function<Void, Void> onClick;
+    public Runnable onClick;
 
-    public Button(int x, int y, int width, int height, Function<Void, Void> onClick) {
+    public Button(int x, int y, int width, int height, Runnable onClick) {
         super(x, y, width, height);
         this.onClick = onClick;
     }

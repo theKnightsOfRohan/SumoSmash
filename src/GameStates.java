@@ -15,10 +15,9 @@ class OptionsSelect implements Settings.GameState {
 
     public OptionsSelect() {
         buttons = new ArrayList<>();
-        Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, (Void) -> {
+        Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.STAGE_1;
             Main.gameState = new Stage1();
-            return null;
         });
         buttons.add(button);
     }
@@ -36,7 +35,7 @@ class OptionsSelect implements Settings.GameState {
     public void handleClick(int mouseX, int mouseY) {
         for (Button button : buttons) {
             if (button.isClicked(mouseX, mouseY)) {
-                button.onClick.apply(null);
+                button.onClick.run();
             }
         }
     }
@@ -48,7 +47,7 @@ class Stage1 implements Settings.GameState {
     List<Button> buttons;
     CollisionHandler collisionHandler;
 
-    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][]{new int[]{200, 700, 600, 300}}));
+    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
     public static final int PLAYER_1_START_X = 300;
     public static final int PLAYER_1_START_Y = 200;
     public static final int PLAYER_2_START_X = 600;
@@ -79,10 +78,9 @@ class Stage1 implements Settings.GameState {
             collisionHandler.addCollidable(p);
         }
 
-        Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, (Void) -> {
+        Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.OPTIONS;
             Main.gameState = new OptionsSelect();
-            return null;
         });
         buttons.add(menuButton);
         drawables.add(menuButton);
@@ -130,7 +128,7 @@ class Stage1 implements Settings.GameState {
     public void handleClick(int mouseX, int mouseY) {
         for (Button button : buttons) {
             if (button.isClicked(mouseX, mouseY)) {
-                button.onClick.apply(null);
+                button.onClick.run();
             }
         }
     }
