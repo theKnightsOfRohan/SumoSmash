@@ -16,6 +16,7 @@ public class Player extends Image implements Moveable {
     protected float friction;
     protected float debugX, debugY;
     protected int spawnX, spawnY;
+    protected boolean canDoubleJump;
 
 
     /**
@@ -45,6 +46,7 @@ public class Player extends Image implements Moveable {
         this.spawnX = x;
         this.spawnY = y;
         this.dashCooldown = 0;
+        this.canDoubleJump = false;
     }
 
     public void act(PApplet app) {
@@ -147,6 +149,10 @@ public class Player extends Image implements Moveable {
         } else {
             this.xSpeed *= this.airAccScaleFactor;
         }
+        if(!this.isOnPlatform()&&this.canDoubleJump){
+            this.ySpeed = -20;
+            this.canDoubleJump = false;
+        }
 
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
@@ -171,6 +177,7 @@ public class Player extends Image implements Moveable {
             this.ySpeed = this.chargeYSpeed;
         }
         this.chargeYSpeed = 0;
+        this.canDoubleJump = true;
     }
 
     /**
