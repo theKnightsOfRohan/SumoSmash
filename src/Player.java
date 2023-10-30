@@ -1,8 +1,5 @@
 import java.util.HashSet;
-import java.util.List;
-
 import processing.core.PApplet;
-import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
     protected float xSpeed, ySpeed;
@@ -46,7 +43,7 @@ public class Player extends Image implements Moveable {
         this.spawnX = x;
         this.spawnY = y;
         this.dashCooldown = 0;
-        this.dashCooldownIncrement = 120;
+        this.dashCooldownIncrement = 30;
         this.dashSpeedIncrease = 40;
     }
 
@@ -129,19 +126,18 @@ public class Player extends Image implements Moveable {
 
         if (currentActions.contains("lDash") && this.dashCooldown == 0) {
             if (isOnPlatform()) {
-                this.xSpeed -= this.dashSpeedIncrease;
+                this.xSpeed -= this.dashSpeedIncrease / 2;
             } else {
                 ySpeed = -1;
-                this.xSpeed -= this.dashSpeedIncrease / 2;
+                this.xSpeed -= this.dashSpeedIncrease;
             }
             this.dashCooldown = this.dashCooldownIncrement;
-            // currentActions.remove("lDash");
         } else if (currentActions.contains("rDash") && this.dashCooldown == 0) {
             if (isOnPlatform()) {
-                this.xSpeed += this.dashSpeedIncrease;
+                this.xSpeed += this.dashSpeedIncrease / 2;
             } else {
                 ySpeed = -1;
-                this.xSpeed += this.dashSpeedIncrease / 2;
+                this.xSpeed += this.dashSpeedIncrease;
             }
             this.dashCooldown = this.dashCooldownIncrement;
         } else if (currentActions.contains("uDash") && this.dashCooldown == 0) {

@@ -1,6 +1,3 @@
-
-import processing.core.PApplet;
-
 public class Button extends Image {
     public Runnable onClick;
 
