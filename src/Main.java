@@ -1,14 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import processing.core.PApplet;
 
 public class Main extends PApplet {
-    Player player;
-    List<Drawable> drawables;
-    CollisionHandler collisionHandler;
     static Settings.Stage currentStage;
-    static Settings.GameState gameState;
+    static GameState gameState;
 
     public void settings() {
         size(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);

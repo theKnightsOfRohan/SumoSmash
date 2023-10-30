@@ -1,23 +1,20 @@
 import java.util.HashSet;
-import java.util.List;
-
 import processing.core.PApplet;
-import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
     protected float xSpeed, ySpeed;
     protected float dashCooldown;
+    protected float dashCooldownIncrement;
+    protected float dashSpeedIncrease;
+    protected float maxDashSpeed;
     protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
     protected float xAcceleration, maxXSpeed;
-    protected float maxDashSpeed;
     protected float airAccScaleFactor;
     protected HashSet<String> currentActions;
     protected float bounceFactor;
     protected float friction;
     protected float debugX, debugY;
     protected int spawnX, spawnY;
-    protected boolean canDoubleJump;
-
 
     /**
      * Constructor for the Player class.
@@ -46,7 +43,8 @@ public class Player extends Image implements Moveable {
         this.spawnX = x;
         this.spawnY = y;
         this.dashCooldown = 0;
-        this.canDoubleJump = false;
+        this.dashCooldownIncrement = 30;
+        this.dashSpeedIncrease = 40;
     }
 
     public void act(PApplet app) {
@@ -124,34 +122,36 @@ public class Player extends Image implements Moveable {
             if (Math.abs(this.xSpeed) < this.maxXSpeed) {
                 this.xSpeed += 2 * this.xAcceleration;
             }
-        } else if (currentActions.contains("lDash") && this.dashCooldown == 0) {
-            if(isOnPlatform()){
-                this.xSpeed -= 40;
-                dashCooldown = 120;
-            }else{
+        }
+
+        if (currentActions.contains("lDash") && this.dashCooldown == 0) {
+            if (isOnPlatform()) {
+                this.xSpeed -= this.dashSpeedIncrease / 2;
+            } else {
                 ySpeed = -1;
-                this.xSpeed -= 20;
-                dashCooldown = 120;
+                this.xSpeed -= this.dashSpeedIncrease;
             }
+            this.dashCooldown = this.dashCooldownIncrement;
         } else if (currentActions.contains("rDash") && this.dashCooldown == 0) {
-            if(isOnPlatform()){
-                this.xSpeed += 40;
-                dashCooldown = 120;
-            }else{
+            if (isOnPlatform()) {
+                this.xSpeed += this.dashSpeedIncrease / 2;
+            } else {
                 ySpeed = -1;
-                this.xSpeed += 20;
-                dashCooldown = 120;
+                this.xSpeed += this.dashSpeedIncrease;
             }
+            this.dashCooldown = this.dashCooldownIncrement;
+        } else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
+            this.ySpeed -= this.dashSpeedIncrease;
+            this.dashCooldown = this.dashCooldownIncrement;
+        } else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
+            this.ySpeed += this.dashSpeedIncrease;
+            this.dashCooldown = this.dashCooldownIncrement;
         }
 
         if (this.canJump()) {
             this.xSpeed *= this.friction;
         } else {
             this.xSpeed *= this.airAccScaleFactor;
-        }
-        if(!this.isOnPlatform()&&this.canDoubleJump){
-            this.ySpeed = -20;
-            this.canDoubleJump = false;
         }
 
         if (Math.abs(this.xSpeed) < 1)
@@ -177,7 +177,6 @@ public class Player extends Image implements Moveable {
             this.ySpeed = this.chargeYSpeed;
         }
         this.chargeYSpeed = 0;
-        this.canDoubleJump = true;
     }
 
     /**
@@ -260,7 +259,7 @@ public class Player extends Image implements Moveable {
      * Returns a string representation of the Player object.
      *
      * @return a formatted string containing the Player's position, speed, charge
-     * speed, and current actions
+     *         speed, and current actions
      */
     public String toString() {
         return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,

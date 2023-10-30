@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-class OptionsSelect implements Settings.GameState {
+class OptionsSelect implements GameState {
     List<Button> buttons;
 
     public static final int BUTTON_WIDTH = 200;
@@ -15,10 +14,9 @@ class OptionsSelect implements Settings.GameState {
 
     public OptionsSelect() {
         buttons = new ArrayList<>();
-        Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, (Void) -> {
+        Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.STAGE_1;
             Main.gameState = new Stage1();
-            return null;
         });
         buttons.add(button);
     }
@@ -36,19 +34,20 @@ class OptionsSelect implements Settings.GameState {
     public void handleClick(int mouseX, int mouseY) {
         for (Button button : buttons) {
             if (button.isClicked(mouseX, mouseY)) {
-                button.onClick.apply(null);
+                button.onClick.run();
             }
         }
     }
 }
 
-class Stage1 implements Settings.GameState {
+class Stage1 implements GameState {
     Player player;
     List<Drawable> drawables;
     List<Button> buttons;
     CollisionHandler collisionHandler;
+    boolean paused;
 
-    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][]{new int[]{200, 700, 600, 300}}));
+    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
     public static final int PLAYER_1_START_X = 300;
     public static final int PLAYER_1_START_Y = 200;
     public static final int PLAYER_2_START_X = 600;
@@ -62,6 +61,7 @@ class Stage1 implements Settings.GameState {
         drawables = new ArrayList<>();
         buttons = new ArrayList<>();
         collisionHandler = new CollisionHandler();
+        paused = false;
 
         player = new Player(PLAYER_1_START_X, PLAYER_1_START_Y, 50, 50);
         drawables.add(player);
@@ -79,16 +79,17 @@ class Stage1 implements Settings.GameState {
             collisionHandler.addCollidable(p);
         }
 
-        Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, (Void) -> {
+        Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.OPTIONS;
             Main.gameState = new OptionsSelect();
-            return null;
         });
         buttons.add(menuButton);
         drawables.add(menuButton);
     }
 
     public void draw(PApplet app) {
+        if (paused)
+            return;
         app.background(200);
         for (Drawable drawable : drawables) {
             drawable.act(app);
@@ -99,7 +100,7 @@ class Stage1 implements Settings.GameState {
 
     public void handleKey(PApplet main, boolean pressed) {
         if (pressed) {
-            if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
+            if (main.key == ' ' || main.key == 'w') {
                 player.setKeys("jump", true);
             } else if (main.key == 'a') {
                 player.setKeys("left", true);
@@ -111,9 +112,13 @@ class Stage1 implements Settings.GameState {
                 player.setKeys("lDash", true);
             } else if (main.keyCode == PConstants.RIGHT) {
                 player.setKeys("rDash", true);
+            } else if (main.keyCode == PConstants.UP) {
+                player.setKeys("uDash", true);
+            } else if (main.keyCode == PConstants.DOWN) {
+                player.setKeys("dDash", true);
             }
         } else {
-            if (main.key == ' ' || main.key == 'w' || main.keyCode == PConstants.UP) {
+            if (main.key == ' ' || main.key == 'w') {
                 player.setKeys("jump", false);
             } else if (main.key == 'a') {
                 player.setKeys("left", false);
@@ -123,6 +128,12 @@ class Stage1 implements Settings.GameState {
                 player.setKeys("lDash", false);
             } else if (main.keyCode == PConstants.RIGHT) {
                 player.setKeys("rDash", false);
+            } else if (main.keyCode == PConstants.UP) {
+                player.setKeys("uDash", false);
+            } else if (main.keyCode == PConstants.DOWN) {
+                player.setKeys("dDash", false);
+            } else if (main.key == 'p') {
+                paused = !paused;
             }
         }
     }
@@ -130,7 +141,7 @@ class Stage1 implements Settings.GameState {
     public void handleClick(int mouseX, int mouseY) {
         for (Button button : buttons) {
             if (button.isClicked(mouseX, mouseY)) {
-                button.onClick.apply(null);
+                button.onClick.run();
             }
         }
     }
