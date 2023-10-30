@@ -15,6 +15,7 @@ public class Player extends Image implements Moveable {
     protected float friction;
     protected float debugX, debugY;
     protected int spawnX, spawnY;
+    protected boolean canDoubleJump;
 
     /**
      * Constructor for the Player class.
@@ -43,6 +44,7 @@ public class Player extends Image implements Moveable {
         this.spawnX = x;
         this.spawnY = y;
         this.dashCooldown = 0;
+        this.canDoubleJump = false;
         this.dashCooldownIncrement = 30;
         this.dashSpeedIncrease = 40;
     }
@@ -140,10 +142,10 @@ public class Player extends Image implements Moveable {
                 this.xSpeed += this.dashSpeedIncrease;
             }
             this.dashCooldown = this.dashCooldownIncrement;
-        } else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
+        } /*else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
             this.ySpeed -= this.dashSpeedIncrease;
             this.dashCooldown = this.dashCooldownIncrement;
-        } else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
+        }*/ else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
             this.ySpeed += this.dashSpeedIncrease;
             this.dashCooldown = this.dashCooldownIncrement;
         }
@@ -152,6 +154,10 @@ public class Player extends Image implements Moveable {
             this.xSpeed *= this.friction;
         } else {
             this.xSpeed *= this.airAccScaleFactor;
+        }
+        if(!this.isOnPlatform()&&this.canDoubleJump){
+            this.ySpeed = -20;
+            this.canDoubleJump = false;
         }
 
         if (Math.abs(this.xSpeed) < 1)
@@ -177,6 +183,7 @@ public class Player extends Image implements Moveable {
             this.ySpeed = this.chargeYSpeed;
         }
         this.chargeYSpeed = 0;
+        this.canDoubleJump = true;
     }
 
     /**
