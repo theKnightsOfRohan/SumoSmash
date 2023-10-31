@@ -142,10 +142,11 @@ public class Player extends Image implements Moveable {
                 this.xSpeed += this.dashSpeedIncrease;
             }
             this.dashCooldown = this.dashCooldownIncrement;
-        } /*else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
-            this.ySpeed -= this.dashSpeedIncrease;
-            this.dashCooldown = this.dashCooldownIncrement;
-        }*/ else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
+        } /*
+           * else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
+           * this.ySpeed -= this.dashSpeedIncrease; this.dashCooldown =
+           * this.dashCooldownIncrement; }
+           */ else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
             this.ySpeed += this.dashSpeedIncrease;
             this.dashCooldown = this.dashCooldownIncrement;
         }
@@ -154,10 +155,6 @@ public class Player extends Image implements Moveable {
             this.xSpeed *= this.friction;
         } else {
             this.xSpeed *= this.airAccScaleFactor;
-        }
-        if(!this.isOnPlatform()&&this.canDoubleJump){
-            this.ySpeed = -20;
-            this.canDoubleJump = false;
         }
 
         if (Math.abs(this.xSpeed) < 1)
@@ -179,11 +176,16 @@ public class Player extends Image implements Moveable {
      * canJump() to false and chargeYSpeed to 0.
      */
     public void releaseJump() {
-        if (this.chargeYSpeed != 0 && this.canJump()) {
-            this.ySpeed = this.chargeYSpeed;
+        if (this.isOnPlatform()) {
+            if (this.chargeYSpeed != 0 && this.canJump()) {
+                this.ySpeed = this.chargeYSpeed;
+                this.chargeYSpeed = 0;
+                this.canDoubleJump = true;
+            }
+        } else if (this.canDoubleJump) {
+            this.ySpeed = -20;
+            this.canDoubleJump = false;
         }
-        this.chargeYSpeed = 0;
-        this.canDoubleJump = true;
     }
 
     /**
