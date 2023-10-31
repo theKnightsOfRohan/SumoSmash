@@ -172,8 +172,8 @@ public class Player extends Image implements Moveable {
 
     /**
      * Release the jump of the player if they have charged their jump and can jump.
-     * Sets the player's ySpeed to the charged ySpeed if they can jump. Sets
-     * canJump() to false and chargeYSpeed to 0.
+     * Sets the player's ySpeed to the charged ySpeed if they can jump. Sets false
+     * and chargeYSpeed to 0.
      */
     public void releaseJump() {
         if (this.isOnPlatform()) {
