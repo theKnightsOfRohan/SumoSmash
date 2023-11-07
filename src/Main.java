@@ -16,6 +16,7 @@ public class Main extends PApplet {
 
     public void draw() {
         gameState.draw(this);
+        text(frameRate, 10, 50);
     }
 
     public void keyPressed() {

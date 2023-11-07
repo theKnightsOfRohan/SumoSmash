@@ -2,12 +2,12 @@ import java.util.HashSet;
 import processing.core.PApplet;
 
 public class Player extends Image implements Moveable {
-    protected float xSpeed, ySpeed;
-    protected float dashCooldown;
-    protected float dashCooldownIncrement;
+    protected float xSpeed, ySpeed; //Required
+    protected float dashCooldown; //Required
+    protected float dashCooldownIncrement; //Required
     protected float dashSpeedIncrease;
     protected float maxDashSpeed;
-    protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed;
+    protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed; //Required
     protected float xAcceleration, maxXSpeed;
     protected float airAccScaleFactor;
     protected HashSet<String> currentActions;
@@ -15,7 +15,7 @@ public class Player extends Image implements Moveable {
     protected float friction;
     protected float debugX, debugY;
     protected int spawnX, spawnY;
-    protected boolean canDoubleJump;
+    protected boolean canDoubleJump; //Required
 
     /**
      * Constructor for the Player class.
@@ -146,10 +146,10 @@ public class Player extends Image implements Moveable {
            * else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
            * this.ySpeed -= this.dashSpeedIncrease; this.dashCooldown =
            * this.dashCooldownIncrement; }
-           */ else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
+            else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
             this.ySpeed += this.dashSpeedIncrease;
             this.dashCooldown = this.dashCooldownIncrement;
-        }
+        }*/
 
         if (this.canJump()) {
             this.xSpeed *= this.friction;
@@ -160,6 +160,8 @@ public class Player extends Image implements Moveable {
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
     }
+
+
 
     /**
      * Increases the player's charge jump speed if the maximum charge jump speed has
