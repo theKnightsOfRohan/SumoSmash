@@ -11,7 +11,7 @@ public class Main extends PApplet {
     public void setup() {
         frameRate(60);
         currentStage = Settings.Stage.STAGE_1;
-        gameState = new Stage1();
+        gameState = new Replay();
     }
 
     public void draw() {

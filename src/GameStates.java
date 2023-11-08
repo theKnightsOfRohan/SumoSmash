@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import processing.core.PApplet;
@@ -50,7 +51,7 @@ class Stage1 implements GameState {
     CollisionHandler collisionHandler;
     boolean paused;
 
-    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][]{new int[]{200, 700, 600, 300}}));
+    public static final List<int[]> platforms = new ArrayList<>(Arrays.asList(new int[][] { new int[] { 200, 700, 600, 300 } }));
     public static final int PLAYER_1_START_X = 300;
     public static final int PLAYER_1_START_Y = 200;
     public static final int PLAYER_2_START_X = 600;
@@ -153,6 +154,7 @@ class Stage1 implements GameState {
 class Replay extends Stage1 {
     ArrayList<String> file;
     ArrayList<ArrayList<String>> allActions;
+    HashSet<String> possibleActions;
     int frameCount;
 
     public Replay() {
@@ -160,53 +162,71 @@ class Replay extends Stage1 {
         file = readFile("replayFiles/replay01");
         int x = Integer.parseInt(file.get(0));
         int y = Integer.parseInt(file.get(1));
-        player = new Player(x, y, 50, 50);
+        // player = new Player(x, y, 50, 50);
         frameCount = 0;
-        allActions = new ArrayList<ArrayList<String>>();
+        allActions = parseReplayFile(file);
+        possibleActions = new HashSet<String>(Arrays.asList("jump", "left", "right", "lDash", "rDash"));
+    }
+
+    private ArrayList<ArrayList<String>> parseReplayFile(ArrayList<String> file) {
+        ArrayList<ArrayList<String>> allActions = new ArrayList<>();
+        for (int i = 2; i < file.size(); i++) {
+            String[] actions = file.get(i).split(",");
+            ArrayList<String> actionsList = new ArrayList<String>(Arrays.asList(actions));
+            allActions.add(actionsList);
+        }
+        return allActions;
     }
 
     public void draw(PApplet app) {
         if (paused)
             return;
         app.background(200);
+
+        try {
+            playInputs(allActions.get(frameCount));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.exit(0);
+        }
+
         for (Drawable drawable : drawables) {
             drawable.act(app);
         }
 
         app.fill(0);
         collisionHandler.handleCollisions();
+        frameCount++;
+        app.text("Frame count: " + frameCount, 600, 10);
     }
 
     public void handleKey(PApplet main, boolean pressed) {
     }
 
     public void playInputs(ArrayList<String> actions) {
-        for (int i = 2; i < file.size(); i++) {
-            if (actions.contains("jump")) {
-                player.setKeys("jump", true);
-            } else {
-                player.setKeys("jump", false);
-            }
-            if (actions.contains("left")) {
-                player.setKeys("left", true);
-            } else {
-                player.setKeys("left", false);
-            }
-            if (actions.contains("right")) {
-                player.setKeys("right", true);
-            } else {
-                player.setKeys("right", false);
-            }
-            if (actions.contains("lDash")) {
-                player.setKeys("lDash", true);
-            } else {
-                player.setKeys("lDash", false);
-            }
-            if (actions.contains("rDash")) {
-                player.setKeys("rDash", true);
-            } else {
-                player.setKeys("rDash", false);
-            }
+        if (actions.contains("jump")) {
+            player.setKeys("jump", true);
+        } else {
+            player.setKeys("jump", false);
+        }
+        if (actions.contains("left")) {
+            player.setKeys("left", true);
+        } else {
+            player.setKeys("left", false);
+        }
+        if (actions.contains("right")) {
+            player.setKeys("right", true);
+        } else {
+            player.setKeys("right", false);
+        }
+        if (actions.contains("lDash")) {
+            player.setKeys("lDash", true);
+        } else {
+            player.setKeys("lDash", false);
+        }
+        if (actions.contains("rDash")) {
+            player.setKeys("rDash", true);
+        } else {
+            player.setKeys("rDash", false);
         }
     }
 
