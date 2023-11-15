@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.HashSet;
 import processing.core.PApplet;
 
@@ -16,6 +17,8 @@ public class Player extends Image implements Moveable {
     protected float debugX, debugY;
     protected int spawnX, spawnY;
     protected boolean canDoubleJump; //Required
+    protected boolean recordingReplay, intitializedReplay;
+    protected String replay;
 
     /**
      * Constructor for the Player class.
@@ -47,6 +50,9 @@ public class Player extends Image implements Moveable {
         this.canDoubleJump = false;
         this.dashCooldownIncrement = 30;
         this.dashSpeedIncrease = 40;
+        this.recordingReplay = false;
+        this.replay = "";
+        this.intitializedReplay = false;
     }
 
     public void act(PApplet app) {
@@ -73,12 +79,32 @@ public class Player extends Image implements Moveable {
         this.ySpeed += Settings.GRAVITY;
 
         doActions(currentActions);
+        if(recordingReplay){
+            addToReplay();
+        }
 
         if (this.isOffScreen()) {
             this.respawn();
         }
     }
 
+    private void addToReplay() {
+        String actions = currentActions.toString();
+        actions = actions.replace("[", "");
+        actions = actions.replace("]", "");
+        actions = actions.replace(" ", "");
+        replay += actions + "\n";
+    }
+    private void saveReplay(){
+        writeToFile(replay, "replayFiles/replay01");
+    }
+    private static void writeToFile(String output, String path) {
+        try (FileWriter writer = new FileWriter(path)) {
+            writer.write(output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void setXSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
     }
@@ -150,6 +176,21 @@ public class Player extends Image implements Moveable {
             this.ySpeed += this.dashSpeedIncrease;
             this.dashCooldown = this.dashCooldownIncrement;
         }*/
+        if(currentActions.contains("record")){
+            recordingReplay = true;
+            if(!intitializedReplay) {
+                int xTemp = (int) this.x;
+                int yTemp = (int) this.y;
+                replay += xTemp + "\n";
+                replay += yTemp + "\n";
+                intitializedReplay = true;
+            }
+        }
+        if(currentActions.contains("stopReplay")){
+            recordingReplay = false;
+            intitializedReplay = false;
+            saveReplay();
+        }
 
         if (this.canJump()) {
             this.xSpeed *= this.friction;
@@ -273,7 +314,7 @@ public class Player extends Image implements Moveable {
      *         speed, and current actions
      */
     public String toString() {
-        return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, and actions %s", this.x, this.y, this.xSpeed,
-                this.ySpeed, this.chargeYSpeed, this.currentActions);
+        return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, actions %s, and recordingReplay %b", this.x, this.y, this.xSpeed,
+                this.ySpeed, this.chargeYSpeed, this.currentActions, this.recordingReplay);
     }
 }

@@ -120,6 +120,10 @@ class Stage1 implements GameState {
                 player.setKeys("uDash", true);
             } else if (main.keyCode == PConstants.DOWN) {
                 player.setKeys("dDash", true);
+            } else if (main.key == 'g') {
+                player.setKeys("record", true);
+            }else if(main.key == 'h'){
+                player.setKeys("stopReplay", true);
             }
         } else {
             if (main.key == ' ' || main.key == 'w') {
@@ -138,6 +142,10 @@ class Stage1 implements GameState {
                 player.setKeys("dDash", false);
             } else if (main.key == 'p') {
                 paused = !paused;
+            } else if(main.key == 'g') {
+                player.setKeys("record", false);
+            }else if(main.key == 'h'){
+                player.setKeys("stopReplay", false);
             }
         }
     }
@@ -160,8 +168,8 @@ class Replay extends Stage1 {
     public Replay() {
         super();
         file = readFile("replayFiles/replay01");
-        int x = Integer.parseInt(file.get(0));
-        int y = Integer.parseInt(file.get(1));
+        int x = Integer.parseInt(String.valueOf(file.get(0)));
+        int y = Integer.parseInt(String.valueOf(file.get(1)));
         // player = new Player(x, y, 50, 50);
         frameCount = 0;
         allActions = parseReplayFile(file);
