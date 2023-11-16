@@ -174,6 +174,8 @@ class Replay extends Stage1 {
         frameCount = 0;
         allActions = parseReplayFile(file);
         possibleActions = new HashSet<String>(Arrays.asList("jump", "left", "right", "lDash", "rDash"));
+        player.setX(x);
+        player.setY(y);
     }
 
     private ArrayList<ArrayList<String>> parseReplayFile(ArrayList<String> file) {
@@ -193,7 +195,7 @@ class Replay extends Stage1 {
 
         try {
             playInputs(allActions.get(frameCount));
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.exit(0);
         }
 
