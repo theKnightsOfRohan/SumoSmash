@@ -23,6 +23,11 @@ class OptionsSelect implements GameState {
             Main.gameState = new Stage1();
         });
         buttons.add(button);
+        button = new Button(BUTTON_X, BUTTON_Y + BUTTON_HEIGHT + 10, BUTTON_WIDTH, BUTTON_HEIGHT, () -> {
+            Main.currentStage = Settings.Stage.STAGE_1;
+            Main.gameState = new Replay();
+        });
+        buttons.add(button);
     }
 
     public void draw(PApplet app) {
@@ -196,7 +201,8 @@ class Replay extends Stage1 {
         try {
             playInputs(allActions.get(frameCount));
         } catch (IndexOutOfBoundsException e) {
-            System.exit(0);
+            Main.currentStage = Settings.Stage.STAGE_1;
+            Main.gameState = new Stage1();
         }
 
         for (Drawable drawable : drawables) {
