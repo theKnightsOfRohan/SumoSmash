@@ -1,8 +1,9 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Dummy extends Player {
-    Dummy(int x, int y, int width, int height) {
-        super(x, y, width, height);
+    Dummy(int x, int y, int width, int height, PImage sprite) {
+        super(x, y, width, height, sprite);
         this.debugX = 10;
         this.debugY = 30;
     }

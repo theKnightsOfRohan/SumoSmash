@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.util.HashSet;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
     protected float xSpeed, ySpeed; //Required
@@ -28,8 +29,8 @@ public class Player extends Image implements Moveable {
      * @param width  The width of the player.
      * @param height The height of the player.
      */
-    public Player(int x, int y, int width, int height/* , PImage sprite, PApplet app */) {
-        super(x, y, width, height/* , sprite, app */);
+    public Player(int x, int y, int width, int height , PImage sprite) {
+        super(x, y, width, height , sprite);
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.chargeYSpeed = 0;

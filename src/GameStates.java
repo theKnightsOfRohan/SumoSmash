@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import processing.core.PImage;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -16,17 +17,17 @@ class OptionsSelect implements GameState {
     public static final int BUTTON_X = 400;
     public static final int BUTTON_Y = 400;
 
-    public OptionsSelect() {
+    public OptionsSelect(PApplet app) {
         buttons = new ArrayList<>();
         Button button = new Button(BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.STAGE_1;
-            Main.gameState = new Stage1();
-        });
+            Main.gameState = new Stage1(app);
+        }, app.loadImage("Sprites/MenuButton.png"));
         buttons.add(button);
         button = new Button(BUTTON_X, BUTTON_Y + BUTTON_HEIGHT + 10, BUTTON_WIDTH, BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.STAGE_1;
-            Main.gameState = new Replay();
-        });
+            Main.gameState = new Replay(app);
+        }, app.loadImage("Sprites/MenuButton.png"));
         buttons.add(button);
     }
 
@@ -66,32 +67,31 @@ class Stage1 implements GameState {
     public static final int MENU_BUTTON_X = Settings.SCREEN_WIDTH - MENU_BUTTON_WIDTH;
     public static final int MENU_BUTTON_Y = 0;
 
-    public Stage1() {
+    public Stage1(PApplet app) {
         drawables = new ArrayList<>();
         buttons = new ArrayList<>();
         collisionHandler = new CollisionHandler();
         paused = false;
-
-        player = new Player(PLAYER_1_START_X, PLAYER_1_START_Y, 50, 50);
+        player = new Player(PLAYER_1_START_X, PLAYER_1_START_Y, 50, 50, app.loadImage("Sprites/player.png"));
         drawables.add(player);
         collisionHandler.addMoveable(player);
         collisionHandler.addCollidable(player);
 
-        Dummy dummy = new Dummy(PLAYER_2_START_X, PLAYER_2_START_Y, 50, 50);
+        Dummy dummy = new Dummy(PLAYER_2_START_X, PLAYER_2_START_Y, 50, 50, app.loadImage("Sprites/dummy.png"));
         drawables.add(dummy);
         collisionHandler.addMoveable(dummy);
         collisionHandler.addCollidable(dummy);
 
         for (int[] platform : platforms) {
-            Platform p = new Platform(platform[0], platform[1], platform[2], platform[3]);
+            Platform p = new Platform(platform[0], platform[1], platform[2], platform[3], app.loadImage("Sprites/platform.png"));
             drawables.add(p);
             collisionHandler.addCollidable(p);
         }
 
         Button menuButton = new Button(MENU_BUTTON_X, MENU_BUTTON_Y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, () -> {
             Main.currentStage = Settings.Stage.OPTIONS;
-            Main.gameState = new OptionsSelect();
-        });
+            Main.gameState = new OptionsSelect(app);
+        }, app.loadImage("Sprites/MenuButton.png"));
         buttons.add(menuButton);
         drawables.add(menuButton);
     }
@@ -99,7 +99,7 @@ class Stage1 implements GameState {
     public void draw(PApplet app) {
         if (paused)
             return;
-        app.background(200);
+        app.background(255);
         for (Drawable drawable : drawables) {
             drawable.act(app);
         }
@@ -170,8 +170,8 @@ class Replay extends Stage1 {
     HashSet<String> possibleActions;
     int frameCount;
 
-    public Replay() {
-        super();
+    public Replay(PApplet app) {
+        super(app);
         file = readFile("replayFiles/replay01");
         int x = Integer.parseInt(String.valueOf(file.get(0)));
         int y = Integer.parseInt(String.valueOf(file.get(1)));
@@ -202,7 +202,7 @@ class Replay extends Stage1 {
             playInputs(allActions.get(frameCount));
         } catch (IndexOutOfBoundsException e) {
             Main.currentStage = Settings.Stage.STAGE_1;
-            Main.gameState = new Stage1();
+            Main.gameState = new Stage1(app);
         }
 
         for (Drawable drawable : drawables) {

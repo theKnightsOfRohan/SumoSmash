@@ -1,8 +1,10 @@
+import processing.core.PImage;
+
 public class Button extends Image {
     public Runnable onClick;
 
-    public Button(int x, int y, int width, int height, Runnable onClick) {
-        super(x, y, width, height);
+    public Button(int x, int y, int width, int height, Runnable onClick, PImage sprite) {
+        super(x, y, width, height, sprite);
         this.onClick = onClick;
     }
 
