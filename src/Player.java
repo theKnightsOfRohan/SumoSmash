@@ -4,12 +4,12 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Player extends Image implements Moveable {
-    protected float xSpeed, ySpeed; //Required
-    protected float dashCooldown; //Required
-    protected float dashCooldownIncrement; //Required
+    protected float xSpeed, ySpeed; // Required
+    protected float dashCooldown; // Required
+    protected float dashCooldownIncrement; // Required
     protected float dashSpeedIncrease;
     protected float maxDashSpeed;
-    protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed; //Required
+    protected float chargeYSpeed, chargeYAcceleration, maxChargeYSpeed; // Required
     protected float xAcceleration, maxXSpeed;
     protected float airAccScaleFactor;
     protected HashSet<String> currentActions;
@@ -17,7 +17,7 @@ public class Player extends Image implements Moveable {
     protected float friction;
     protected float debugX, debugY;
     protected int spawnX, spawnY;
-    protected boolean canDoubleJump; //Required
+    protected boolean canDoubleJump; // Required
     protected boolean recordingReplay, intitializedReplay;
     protected String replay;
 
@@ -29,8 +29,8 @@ public class Player extends Image implements Moveable {
      * @param width  The width of the player.
      * @param height The height of the player.
      */
-    public Player(int x, int y, int width, int height , PImage sprite) {
-        super(x, y, width, height , sprite);
+    public Player(int x, int y, int width, int height, PImage sprite) {
+        super(x, y, width, height, sprite);
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.chargeYSpeed = 0;
@@ -80,7 +80,7 @@ public class Player extends Image implements Moveable {
         this.ySpeed += Settings.GRAVITY;
 
         doActions(currentActions);
-        if(recordingReplay){
+        if (recordingReplay) {
             addToReplay();
         }
 
@@ -96,9 +96,11 @@ public class Player extends Image implements Moveable {
         actions = actions.replace(" ", "");
         replay += actions + "\n";
     }
-    private void saveReplay(){
+
+    private void saveReplay() {
         writeToFile(replay, "replayFiles/replay01");
     }
+
     private static void writeToFile(String output, String path) {
         try (FileWriter writer = new FileWriter(path)) {
             writer.write(output);
@@ -106,6 +108,7 @@ public class Player extends Image implements Moveable {
             e.printStackTrace();
         }
     }
+
     public void setXSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
     }
@@ -172,14 +175,13 @@ public class Player extends Image implements Moveable {
         } /*
            * else if (currentActions.contains("uDash") && this.dashCooldown == 0) {
            * this.ySpeed -= this.dashSpeedIncrease; this.dashCooldown =
-           * this.dashCooldownIncrement; }
-            else if (currentActions.contains("dDash") && this.dashCooldown == 0) {
-            this.ySpeed += this.dashSpeedIncrease;
-            this.dashCooldown = this.dashCooldownIncrement;
-        }*/
-        if(currentActions.contains("record")){
+           * this.dashCooldownIncrement; } else if (currentActions.contains("dDash") &&
+           * this.dashCooldown == 0) { this.ySpeed += this.dashSpeedIncrease;
+           * this.dashCooldown = this.dashCooldownIncrement; }
+           */
+        if (currentActions.contains("record")) {
             recordingReplay = true;
-            if(!intitializedReplay) {
+            if (!intitializedReplay) {
                 int xTemp = (int) this.x;
                 int yTemp = (int) this.y;
                 replay += xTemp + "\n";
@@ -187,7 +189,7 @@ public class Player extends Image implements Moveable {
                 intitializedReplay = true;
             }
         }
-        if(currentActions.contains("stopReplay")){
+        if (currentActions.contains("stopReplay")) {
             recordingReplay = false;
             intitializedReplay = false;
             saveReplay();
@@ -202,8 +204,6 @@ public class Player extends Image implements Moveable {
         if (Math.abs(this.xSpeed) < 1)
             this.xSpeed = 0;
     }
-
-
 
     /**
      * Increases the player's charge jump speed if the maximum charge jump speed has
@@ -315,7 +315,7 @@ public class Player extends Image implements Moveable {
      *         speed, and current actions
      */
     public String toString() {
-        return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, actions %s, and recordingReplay %b", this.x, this.y, this.xSpeed,
-                this.ySpeed, this.chargeYSpeed, this.currentActions, this.recordingReplay);
+        return String.format("Player at (%.4f, %.4f) with xSpeed %.4f, ySpeed %.4f, chargeYSpeed %.4f, actions %s, and recordingReplay %b", this.x,
+                this.y, this.xSpeed, this.ySpeed, this.chargeYSpeed, this.currentActions, this.recordingReplay);
     }
 }
